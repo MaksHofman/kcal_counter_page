@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calorie Counter</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style_home.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="login-box">
+            <a href="{{ url_for('login') }}" class="btn">Login</a>
+        </div>
+        <h1>Welcome to Calorie Counter</h1>
+        <p>This website helps you track your daily calorie intake and compare the cost per calorie and protein between different foods.</p>
+        <p>Start by logging in or creating an account to track your progress.</p>
+        <a href="{{ url_for('register') }}" class="btn">Get Started</a>
+    </div>
+</body>
+</html>
