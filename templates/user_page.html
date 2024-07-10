@@ -1,24 +1,27 @@
-<!-- templates/user_page.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Page</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style_user_page.css') }}">
 </head>
-<body>
-    <div class="top-bar">
-        <a href="{{ url_for('user_page') }}">Home</a>
-        <a href="{{ url_for('progress') }}">Progress</a>
-        <a href="{{ url_for('stats') }}">Stats</a>
-        <a href="{{ url_for('kcal_calculator') }}">Kcal Calculator</a>
-        <a href="{{ url_for('history') }}">History</a>
-        <a href="{{ url_for('sign_out') }}">Sign Out</a>
+<div class="container">
+    <div class="login-box">
+        <a class="btn" href="{{ url_for('sign_out') }}">Sign Out</a>
     </div>
+    <h1>Welcome back, {{ username }}!</h1>
     <div class="content">
+        <div class="top-bar">
+            <a href="{{ url_for('user_page') }}">Home</a>
+            <a href="{{ url_for('progress') }}">Progress</a>
+            <a href="{{ url_for('stats') }}">Stats</a>
+            <a href="{{ url_for('kcal_calculator') }}">Kcal Calculator</a>
+            <a href="{{ url_for('history') }}">History</a>
+        </div>
         {% block content %}
         {% endblock %}
     </div>
+</div>
 </body>
 </html>

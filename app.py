@@ -71,7 +71,8 @@ def history():
 @app.route('/user_page')
 def user_page():
     if 'logged_in' in session:
-        return render_template('user_page.html')
+        username = session['username']
+        return render_template('user_page.html', username=username)
     else:
         return redirect(url_for('login'))
 
