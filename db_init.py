@@ -76,6 +76,16 @@ def creating_db():
             ''')
         conn.commit()
 
+    def progress_table_creation(c, conn):
+        c.execute('''
+                   CREATE TABLE IF NOT EXISTS progress (
+                    user_id INTEGER,
+                    progress_nr_1 INTEGER NOT NULL,
+                    progress_nr_1_date DATE NOT NULL,
+                    FOREIGN KEY (user_id) REFERENCES users)
+                   ''')
+        conn.commit()
+
     def db_test_query(c, conn):
         c.execute('SELECT * FROM products')
         rows = c.fetchall()
@@ -86,8 +96,9 @@ def creating_db():
         c,conn = connect_to_db()
         #creating_db_users(c,conn)
         #creating_test_data(c,conn)
-        creating_db_products(c, conn)
-        products_table_test_data_init(c, conn)
+       # creating_db_products(c, conn)
+        #products_table_test_data_init(c, conn)
+        progress_table_creation(c, conn)
         db_test_query(c,conn)
         conn.close()
 
