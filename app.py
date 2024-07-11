@@ -25,18 +25,22 @@ def get_user_from_db(username):
 def checking_if_login_correct(login: str, password: str) -> bool:
     conn = sqlite3.connect('website.db')
     cursor = conn.cursor()
-    cursor.execute(f'SELECT CASE WHEN EXISTS (SELECT 1 FROM users WHERE username="{login}" AND password="{password}") THEN 1 ELSE 0 END;')
-    output = cursor.fetchall()
+    if password != None:
+        cursor.execute(f'SELECT CASE WHEN EXISTS (SELECT 1 FROM users WHERE username="{login}" AND password="{password}") THEN 1 ELSE 0 END;')
+        output = cursor.fetchall()
+    else:
+        cursor.execute(f'SELECT CASE WHEN EXISTS (SELECT 1 FROM users WHERE username="{login}") THEN 1 ELSE 0 END;')
+        output = cursor.fetchall()
     conn.close()
     if output[0][0] == 1:
         return True
     else:
         return False
 #dodaje uzytkownika i sprawdza czy uzytkownik sie stworzyl w bazie danych
-def dodaj_uzytkownika_do_db(login: str, password: str) -> bool:
+def dodaj_uzytkownika_do_db(login: str, email: str, password: str) -> bool:
     conn = sqlite3.connect('website.db')
     cursor = conn.cursor()
-    cursor.execute(f"INSERT INTO users (username, password) VALUES ('{login}', '{password}');")
+    cursor.execute(f"INSERT INTO users (username,email,password) VALUES ('{login}','{email}', '{password}');")
     conn.commit()
     conn.close()
     if checking_if_login_correct(login, password):
@@ -52,19 +56,20 @@ def home():
 def register():
     if request.method == 'POST':
         login = request.form['username']
+        email = request.form['email']
         password = request.form['password']
         confirm_password = request.form['confirm_password']
-        if checking_if_login_correct(login, password):
-            return "Konto juz istnieje"
+        if checking_if_login_correct(login, password) or checking_if_login_correct(login, None):
+            return render_template('register.html', wrong_register='Account already exists')
         else:
             if password == confirm_password:
-                czy_sie_udalo = dodaj_uzytkownika_do_db(login, password)
+                czy_sie_udalo = dodaj_uzytkownika_do_db(login,email, password)
                 if czy_sie_udalo:
                     return redirect(url_for('login'))
                 else:
                     return "Wystompil blad w logowaniu"
             else:
-                return "Passwords do not match. Please try again."
+                return render_template('register.html', wrong_register='Passwords do not match. Please try again.')
     return render_template('register.html')
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -80,7 +85,8 @@ def login():
             session['height'] = height
             return redirect(url_for('user_page'))
         else:
-            return 'Invalid username or password'
+            wrong_login = "Wrong username or password"
+            return render_template('login.html', wrong_login=wrong_login)
     return render_template('login.html')
 
 @app.route('/sign_out')
