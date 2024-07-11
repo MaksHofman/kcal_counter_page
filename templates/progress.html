@@ -1,7 +1,32 @@
-<!-- templates/home.html -->
-{% extends 'user_page.html' %}
-
-{% block content %}
-    <h1>Welcome to the Home Page!</h1>
-    <!-- Add your home page content here -->
-{% endblock %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stats Page</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style_progress.css') }}">
+</head>
+<body>
+<div class="navbar">
+    <div class="top-bar">
+        <a href="{{ url_for('user_page') }}">Home</a>
+        <a href="{{ url_for('progress') }}">Progress</a>
+        <a href="{{ url_for('stats') }}">Stats</a>
+        <a href="{{ url_for('kcal_calculator') }}">Kcal Calculator</a>
+        <a href="{{ url_for('history') }}">History</a>
+    </div>
+    <div class="login-box">
+        <a class="btn" href="{{ url_for('sign_out') }}">Sign Out</a>
+    </div>
+</div>
+<div class="container">
+    <h1>Progress</h1>
+    <div class="content">
+        <div class="progress-content">
+            <!-- Your stats content goes here -->
+            <p>Your progress will be displayed here.</p>
+        </div>
+    </div>
+</div>
+</body>
+</html>

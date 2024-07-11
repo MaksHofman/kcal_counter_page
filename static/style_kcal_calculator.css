@@ -1,0 +1,122 @@
+/* General styles */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(to right, #0f3057, #2a5298);
+    color: #fff;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Navbar styles */
+.navbar {
+    box-sizing: border-box;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 10px;
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+}
+
+.top-bar {
+    display: flex;
+}
+
+.top-bar a {
+    color: #1d3557;
+    text-decoration: none;
+    margin: 0 10px;
+    padding: 10px;
+    border-radius: 5px;
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+.top-bar a:hover {
+    background: #457b9d;
+    color: #fff;
+}
+
+.login-box {
+    margin-right: 10px;
+}
+
+.login-box .btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background: #1d3557;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background 0.3s ease;
+}
+
+.login-box .btn:hover {
+    background: #457b9d;
+}
+
+/* Container styles */
+.container {
+    max-width: 600px;
+    padding: 40px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    margin-top: 20px;
+}
+
+h1 {
+    color: #1d3557;
+}
+
+p {
+    color: #1d3557;
+    margin-bottom: 20px;
+}
+
+/* Content styles */
+.content {
+    background: transparent;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.calc-content {
+    padding: 20px;
+    background: rgba(29, 53, 87, 0.1);
+    border-radius: 10px;
+}
+
+/* Responsive design */
+@media (max-width: 600px) {
+    .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .top-bar {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .top-bar a {
+        margin: 5px 0;
+    }
+
+    .login-box {
+        margin-top: 10px;
+    }
+
+    .container {
+        padding: 20px;
+    }
+
+    .content {
+        padding: 10px;
+    }
+}
