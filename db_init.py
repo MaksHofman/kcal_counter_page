@@ -11,9 +11,8 @@ def creating_db():
         # creating main table(currently place holder)
         c.execute('''
         CREATE TABLE IF NOT EXISTS users (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
         username TEXT NOT NULL UNIQUE,
-        email TEXT NOT NULL UNIQUE,
+        email TEXT PRIMARY KEY NOT NULL UNIQUE,
         password TEXT NOT NULL,
         mass INTEGER,
         age INTEGER,
@@ -31,6 +30,7 @@ def creating_db():
         conn.commit()
 
     def creating_test_data(c, conn):
+
         c.execute('''
         INSERT INTO users (username, email, password, mass, age, height)
         VALUES ('qw','amogus@gmail.com', 'qw', 50, 20, 180)
@@ -39,7 +39,7 @@ def creating_db():
         INSERT INTO users (username,email, password)
         VALUES ('zx','amogus@gmail.pl', 'zx')
         ''')
-        conn.commit()
+
 
 
     def creating_db_products(c, conn):
@@ -79,9 +79,9 @@ def creating_db():
     def progress_table_creation(c, conn):
         c.execute('''
                    CREATE TABLE IF NOT EXISTS progress (
-                    user_id INTEGER,
-                    progress_nr_1 INTEGER NOT NULL,
-                    progress_nr_1_date DATE NOT NULL,
+                    user_id TEXT,
+                    progress_update INTEGER NOT NULL,
+                    progress_update_date DATE NOT NULL,
                     FOREIGN KEY (user_id) REFERENCES users)
                    ''')
         conn.commit()
@@ -94,9 +94,14 @@ def creating_db():
 
     if __name__ == '__main__':
         c,conn = connect_to_db()
-        #creating_db_users(c,conn)
+        creating_db_users(c,conn)
+        c.execute('''
+        INSERT INTO users (username,email, password, mass, age)
+        VALUES ('kerry','kerry.com@gmail.pl', 'zx', 60, 20)
+        ''')
+        conn.commit()
         #creating_test_data(c,conn)
-       # creating_db_products(c, conn)
+        creating_db_products(c, conn)
         #products_table_test_data_init(c, conn)
         progress_table_creation(c, conn)
         db_test_query(c,conn)
