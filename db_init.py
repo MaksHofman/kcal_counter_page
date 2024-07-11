@@ -12,7 +12,7 @@ def creating_db():
         c.execute('''
         CREATE TABLE IF NOT EXISTS users (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        username TEXT NOT NULL UNIQUE,
+        username TEXT NOT NULL,
         password TEXT NOT NULL,
         mass INTEGER,
         age INTEGER,

@@ -10,7 +10,7 @@ registered_users = {}
 
 app.secret_key = 'your_secret_key'  # Change this to a secure secret key
 
-
+#Funkcjia zwraca z bazy danych wiadomosci o userze. (napisana do placeholder bazy bedzie trzeba zmiecnic)
 def get_user_from_db(username):
     conn = sqlite3.connect('website.db')
     cursor = conn.cursor()
@@ -32,6 +32,17 @@ def checking_if_login_correct(login: str, password: str) -> bool:
         return True
     else:
         return False
+#dodaje uzytkownika i sprawdza czy uzytkownik sie stworzyl w bazie danych
+def dodaj_uzytkownika_do_db(login: str, password: str) -> bool:
+    conn = sqlite3.connect('website.db')
+    cursor = conn.cursor()
+    cursor.execute(f"INSERT INTO users (username, password) VALUES ('{login}', '{password}');")
+    conn.commit()
+    conn.close()
+    if checking_if_login_correct(login, password):
+        return True
+    else:
+        return False
 
 @app.route('/')
 def home():
@@ -40,17 +51,20 @@ def home():
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
-        username = request.form['username']
+        login = request.form['username']
         password = request.form['password']
         confirm_password = request.form['confirm_password']
-
-        if password == confirm_password:
-            # Store user data (in this example, just in a dictionary)
-            registered_users[username] = password
-            return redirect(url_for('login'))
+        if checking_if_login_correct(login, password):
+            return "Konto juz istnieje"
         else:
-            return "Passwords do not match. Please try again."
-    print(registered_users)
+            if password == confirm_password:
+                czy_sie_udalo = dodaj_uzytkownika_do_db(login, password)
+                if czy_sie_udalo:
+                    return redirect(url_for('login'))
+                else:
+                    return "Wystompil blad w logowaniu"
+            else:
+                return "Passwords do not match. Please try again."
     return render_template('register.html')
 @app.route('/login', methods=['GET', 'POST'])
 def login():
