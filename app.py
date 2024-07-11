@@ -53,12 +53,12 @@ def home():
     return render_template('home.html')
 
 @app.route('/register', methods=['GET', 'POST'])
-def register():
+def register(confirm_password=None):
     if request.method == 'POST':
         login = request.form['username']
         email = request.form['email']
         password = request.form['password']
-        confirm_password = request.form['confirm_password']
+        confiRrm_password = request.form['confirm_password']
         if checking_if_login_correct(login, password) or checking_if_login_correct(login, None):
             return render_template('register.html', wrong_register='Account already exists')
         else:
