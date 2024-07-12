@@ -1,7 +1,7 @@
 from flask import Flask, render_template, redirect, url_for, request, session
 import sqlite3
 from datetime import datetime, timedelta
-
+import re
 app = Flask(__name__, static_url_path='/static')
 
 registered_users = {}
@@ -20,7 +20,17 @@ def get_user_from_db(username):
     conn.close()
     return output[0][0], output[0][1], output[0][2], output[0][3]
 
-
+#funkcjia sprawdza czy mail juz jest uwzywany
+def check_email_exists(email: str) -> bool:
+    conn = sqlite3.connect('website.db')
+    cursor = conn.cursor()
+    cursor.execute(f'SELECT CASE WHEN EXISTS (SELECT 1 FROM users WHERE email="{email}") THEN 1 ELSE 0 END;')
+    output = cursor.fetchall()
+    conn.close()
+    if output[0][0] == 1:
+        return True
+    else:
+        return False
 
 #Funkcjia laczy sie z serwerm. Sprawdza czy haslo i login pasuja i zwraca boolowska wartosc
 def checking_if_login_correct(login: str, password: str) -> bool:
@@ -49,6 +59,13 @@ def dodaj_uzytkownika_do_db(login: str, email: str, password: str, creation_date
     else:
         return False
 
+def check_if_email_correct(email:str) -> bool:
+    regex = r'^\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
+    if re.match(regex, email):
+        return True
+    else:
+        return False
+
 def generacjia_daty_utowrzeniakonta() -> datetime:
     return datetime.now()
 
@@ -65,9 +82,28 @@ def register(confirm_password=None):
         login = request.form['username']
         email = request.form['email']
         password = request.form['password']
-        confiRrm_password = request.form['confirm_password']
-        if checking_if_login_correct(login, password) or checking_if_login_correct(login, None):
-            return render_template('register.html', wrong_register='Account already exists')
+        confirm_password = request.form['confirm_password']
+        #wczytanie z pamieci loginu przed errorem
+        if login == "" and session.get('inputed_username') != None:
+            login = session.get('inputed_username')
+        else:
+            session['inputed_username'] = login
+
+        inputed_username = login
+        #wczytanie z pamieci emaila przed errorem
+        if email == "" and session.get('inputed_email') != None:
+            email = session.get('inputed_email')
+        else:
+            session['inputed_email'] = email
+
+        if check_if_email_correct(email):
+            inputed_mail = email
+        else:
+            return render_template('register.html', inputed_username=inputed_username, inputed_mail="Email", wrong_register="Email is incorrect")
+        if checking_if_login_correct(login, None):
+            return render_template('register.html',inputed_username="Username", inputed_mail="Email", wrong_register='Account already exists')
+        elif check_email_exists(email):
+            return render_template('register.html',inputed_username=inputed_username, wrong_register='Email already exists')
         else:
             if password == confirm_password:
                 czy_sie_udalo = dodaj_uzytkownika_do_db(login, email, password, generacjia_daty_utowrzeniakonta())
@@ -76,8 +112,8 @@ def register(confirm_password=None):
                 else:
                     return "Wystompil blad w logowaniu"
             else:
-                return render_template('register.html', wrong_register='Passwords do not match. Please try again.')
-    return render_template('register.html')
+                return render_template('register.html', inputed_username=inputed_username, inputed_mail=inputed_mail, wrong_register='Passwords do not match. Please try again.')
+    return render_template('register.html',inputed_username="Username", inputed_mail="Email")
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
