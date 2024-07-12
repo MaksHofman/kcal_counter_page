@@ -1,5 +1,6 @@
 from flask import Flask, render_template, redirect, url_for, request, session
 import sqlite3
+from datetime import datetime, timedelta
 
 app = Flask(__name__, static_url_path='/static')
 
@@ -37,16 +38,22 @@ def checking_if_login_correct(login: str, password: str) -> bool:
     else:
         return False
 #dodaje uzytkownika i sprawdza czy uzytkownik sie stworzyl w bazie danych
-def dodaj_uzytkownika_do_db(login: str, email: str, password: str) -> bool:
+def dodaj_uzytkownika_do_db(login: str, email: str, password: str, creation_date:datetime) -> bool:
     conn = sqlite3.connect('website.db')
     cursor = conn.cursor()
-    cursor.execute(f"INSERT INTO users (username,email,password) VALUES ('{login}','{email}', '{password}');")
+    cursor.execute(f"INSERT INTO users (username,email,password,account_created_date) VALUES ('{login}','{email}', '{password}','{creation_date}');")
     conn.commit()
     conn.close()
     if checking_if_login_correct(login, password):
         return True
     else:
         return False
+
+def generacjia_daty_utowrzeniakonta() -> datetime:
+    return datetime.now()
+
+def gen_ile_jestesmy_razem(account_created_date: datetime) -> timedelta:
+    return datetime.now() - account_created_date
 
 @app.route('/')
 def home():
@@ -63,7 +70,7 @@ def register(confirm_password=None):
             return render_template('register.html', wrong_register='Account already exists')
         else:
             if password == confirm_password:
-                czy_sie_udalo = dodaj_uzytkownika_do_db(login,email, password)
+                czy_sie_udalo = dodaj_uzytkownika_do_db(login, email, password, generacjia_daty_utowrzeniakonta())
                 if czy_sie_udalo:
                     return redirect(url_for('login'))
                 else:
