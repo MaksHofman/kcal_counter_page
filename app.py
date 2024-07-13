@@ -97,6 +97,10 @@ def stats():
 def kcal_calculator():
     return render_template('kcal_calculator.html')
 
+@app.route('/my_page')
+def my_page():
+    return render_template('my_page.html')
+
 @app.route('/history')
 def history():
     return render_template('history.html')
