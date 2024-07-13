@@ -82,11 +82,11 @@ def progress():
 @app.route('/stats')
 def stats():
     if 'logged_in' in session:
-        email = session['email']
+        email = session.get('email')
 
         account_created_date, days_from_account_creation = get_account_creation_info(email)
         best_streak, current_streak, days_when_on_site = get_streaks_by_email(email)
-        ttde = calculate_tdee(calculate_bmr(session.get('mass'), session.get('age'), session.get('height'), session.get('gender')), activity_level=session.get('activity_level'))
+        ttde = calculate_tdee(calculate_bmr(session.get('mass'),session.get('height'), session.get('age'), session.get('gender')), activity_level=session.get('activity_level'))
         return render_template('stats.html',
                                account_created_date=account_created_date,
                                days_from_account_creation=days_from_account_creation,
@@ -98,7 +98,12 @@ def stats():
 
 @app.route('/kcal_calculator')
 def kcal_calculator():
-    return render_template('kcal_calculator.html')
+    if 'logged_in' in session:
+        bmr = calculate_bmr(session.get('mass'),session.get('height'), session.get('age'), session.get('gender'))
+        ttde = calculate_tdee(bmr, activity_level=session.get('activity_level'))
+        return render_template('kcal_calculator.html',bmr=bmr, ttde=ttde)
+    else:
+        return redirect(url_for('kcal_calculator.html'))
 
 
 @app.route('/my_page')

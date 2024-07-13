@@ -45,7 +45,7 @@ def calculate_bmr(weight, height, age, gender):
         bmr = 10 * weight + 6.25 * height - 5 * age - 161
     else:
         raise ValueError("Gender not recognized. Use 'male' or 'female'.")
-    return bmr
+    return int(round(bmr,0))
 
 
 def calculate_tdee(bmr, activity_level):
@@ -63,7 +63,7 @@ def calculate_tdee(bmr, activity_level):
             "Activity level not recognized. Choose from 'sedentary', 'lightly active', 'moderately active', 'very active', 'super active'.")
 
     tdee = bmr * activity_factors[activity_level]
-    return tdee
+    return int(round(tdee, 0))
 def calculate_bulking_calories(tdee, bulking_percentage):
     """Calculate calories for bulking phase"""
     bulking_calories = tdee + (tdee * bulking_percentage)
