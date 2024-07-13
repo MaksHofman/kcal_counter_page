@@ -101,7 +101,9 @@ def kcal_calculator():
     if 'logged_in' in session:
         bmr = calculate_bmr(session.get('mass'),session.get('height'), session.get('age'), session.get('gender'))
         ttde = calculate_tdee(bmr, activity_level=session.get('activity_level'))
-        return render_template('kcal_calculator.html',bmr=bmr, ttde=ttde)
+        daily_goal_holder = get_kcal_goal_from_db(session.get('email'))
+        kcal_goal = daily_goal_holder
+        return render_template('kcal_calculator.html',bmr=bmr, ttde=ttde, kcal_goal=kcal_goal)
     else:
         return redirect(url_for('kcal_calculator.html'))
 

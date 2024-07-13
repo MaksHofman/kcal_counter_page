@@ -2,6 +2,14 @@ import sqlite3
 from datetime import datetime, timedelta
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
+
+def get_kcal_goal_from_db(email):
+    conn = sqlite3.connect('website.db')
+    cursor = conn.cursor()
+    cursor.execute(f'''SELECT kcal_goal FROM users WHERE email = "{email}";''')
+    queary_output = cursor.fetchall()
+    conn.close()
+    return queary_output[0][0]
 # zwraca wartosci
 def get_progress_update(email: str, type: str) -> tuple[list, list]:
     conn = sqlite3.connect('website.db')
