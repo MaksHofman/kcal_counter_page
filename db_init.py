@@ -1,5 +1,7 @@
 import sqlite3
-
+import datetime
+def generacjia_daty_utowrzeniakonta() -> datetime:
+    return datetime.now()
 def creating_db():
     def connect_to_db():
         conn = sqlite3.connect('website.db')
@@ -82,10 +84,18 @@ def creating_db():
                     user_id TEXT,
                     progress_update INTEGER NOT NULL,
                     progress_update_date DATE NOT NULL,
+                    progress_type TEXT NOT NULL,
                     FOREIGN KEY (user_id) REFERENCES users)
                    ''')
         conn.commit()
 
+    def add_test_progress(c, conn):
+        czas = generacjia_daty_utowrzeniakonta()
+        c.execute(f'''
+            INSERT INTO progress (user_id, progress_update,progress_update_date, progress_type)
+            VALUES ("amogus@gmail.pl", 20, {czas})
+            ''')
+        conn.commit()
     def db_test_query(c, conn):
         c.execute('SELECT * FROM products')
         rows = c.fetchall()
@@ -95,16 +105,16 @@ def creating_db():
     if __name__ == '__main__':
         c,conn = connect_to_db()
         creating_db_users(c,conn)
-        c.execute('''
-        INSERT INTO users (username,email, password, mass, age)
-        VALUES ('kerry','kerry.com@gmail.pl', 'zx', 60, 20)
-        ''')
-        conn.commit()
+        #c.execute('''
+        #INSERT INTO users (username,email, password, mass, age)
+        #VALUES ('kerry','kerry.com@gmail.pl', 'zx', 60, 20)
+        #''')
+        #conn.commit()
         #creating_test_data(c,conn)
-        creating_db_products(c, conn)
+        #creating_db_products(c, conn)
         #products_table_test_data_init(c, conn)
-        progress_table_creation(c, conn)
-        db_test_query(c,conn)
+        #progress_table_creation(c, conn)
+        #db_test_query(c,conn)
         conn.close()
 
 if __name__ == '__main__':
