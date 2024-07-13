@@ -81,7 +81,6 @@ def get_streaks_by_email(email):
 def get_account_creation_info(email):
     account_created_date_str, account_created_date = get_account_created_date(email)
     days_from_account_creation = get_days_from_account_creation(account_created_date)
-    print(account_created_date_str, days_from_account_creation)
     return account_created_date_str, days_from_account_creation
 
 def get_account_created_date(email):
