@@ -54,12 +54,14 @@ def login():
         password = request.form['password']
         if checking_if_login_correct(login, password):
             session['logged_in'] = True
-            username, mass, age, height, email = get_user_from_db(login)
+            username, mass, age, height, email, gender, activity_level = get_user_from_db(login)
             session['username'] = username
             session['mass'] = mass
             session['age'] = age
             session['height'] = height
             session['email'] = email
+            session['gender'] = gender
+            session['activity_level'] = activity_level
             return redirect(url_for('user_page'))
         else:
             wrong_login = "Wrong username or password"
@@ -84,12 +86,13 @@ def stats():
 
         account_created_date, days_from_account_creation = get_account_creation_info(email)
         best_streak, current_streak, days_when_on_site = get_streaks_by_email(email)
+        ttde = calculate_tdee(calculate_bmr(session.get('mass'), session.get('age'), session.get('height'), session.get('gender')), activity_level=session.get('activity_level'))
         return render_template('stats.html',
                                account_created_date=account_created_date,
                                days_from_account_creation=days_from_account_creation,
                                best_streak=best_streak,
                                current_streak=current_streak,
-                               days_when_on_site=days_when_on_site)
+                               days_when_on_site=days_when_on_site, ttde=ttde)
     else:
         return redirect(url_for('login'))
 

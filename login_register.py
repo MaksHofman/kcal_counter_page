@@ -6,10 +6,10 @@ import re
 def get_user_from_db(username):
     conn = sqlite3.connect('website.db')
     cursor = conn.cursor()
-    cursor.execute(f'SELECT username, mass, age, height, email FROM users WHERE username = "{username}";')
+    cursor.execute(f'SELECT username, mass, age, height, email, gender, activity_level FROM users WHERE username = "{username}";')
     output = cursor.fetchall()
     conn.close()
-    return output[0][0], output[0][1], output[0][2], output[0][3], output[0][4]
+    return output[0][0], output[0][1], output[0][2], output[0][3], output[0][4], output[0][5], output[0][6]
 
 #funkcjia sprawdza czy mail juz jest uwzywany
 def check_email_exists(email: str) -> bool:
