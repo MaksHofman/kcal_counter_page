@@ -15,10 +15,10 @@ app.secret_key = 'your_secret_key'  # Change this to a secure secret key
 def get_user_from_db(username):
     conn = sqlite3.connect('website.db')
     cursor = conn.cursor()
-    cursor.execute(f'SELECT username, mass, age, height FROM users WHERE username = "{username}";')
+    cursor.execute(f'SELECT username, mass, age, height, email FROM users WHERE username = "{username}";')
     output = cursor.fetchall()
     conn.close()
-    return output[0][0], output[0][1], output[0][2], output[0][3]
+    return output[0][0], output[0][1], output[0][2], output[0][3], output[0][4]
 
 #funkcjia sprawdza czy mail juz jest uwzywany
 def check_email_exists(email: str) -> bool:
@@ -69,8 +69,33 @@ def check_if_email_correct(email:str) -> bool:
 def generacjia_daty_utowrzeniakonta() -> datetime:
     return datetime.now()
 
-def gen_ile_jestesmy_razem(account_created_date: datetime) -> timedelta:
-    return datetime.now() - account_created_date
+# Get user's streaks by email
+def get_streaks_by_email(email):
+    conn = sqlite3.connect('website.db')
+    cursor = conn.cursor()
+    cursor.execute(f'SELECT best_streak, current_streak, days_when_on_site FROM users WHERE email = "{email}";')
+    output = cursor.fetchall()
+    conn.close()
+    return output[0][0], output[0][1], output[0][2]
+
+def get_account_creation_info(email):
+    account_created_date_str, account_created_date = get_account_created_date(email)
+    days_from_account_creation = get_days_from_account_creation(account_created_date)
+    print(account_created_date_str, days_from_account_creation)
+    return account_created_date_str, days_from_account_creation
+
+def get_account_created_date(email):
+    conn = sqlite3.connect('website.db')
+    cursor = conn.cursor()
+    cursor.execute(f'SELECT account_created_date FROM users WHERE email = "{email}";')
+    output = cursor.fetchall()
+    conn.close()
+    account_created_date = datetime.strptime(output[0][0], '%Y-%m-%d %H:%M:%S.%f')
+    account_created_date_str = account_created_date.strftime("%d.%m.%y")
+    return account_created_date_str, account_created_date
+
+def get_days_from_account_creation(account_created_date):
+    return (datetime.now() - account_created_date).days
 
 @app.route('/')
 def home():
@@ -121,11 +146,12 @@ def login():
         password = request.form['password']
         if checking_if_login_correct(login, password):
             session['logged_in'] = True
-            username, mass, age, height = get_user_from_db(login)
+            username, mass, age, height, email = get_user_from_db(login)
             session['username'] = username
             session['mass'] = mass
             session['age'] = age
             session['height'] = height
+            session['email'] = email
             return redirect(url_for('user_page'))
         else:
             wrong_login = "Wrong username or password"
@@ -145,7 +171,19 @@ def progress():
 
 @app.route('/stats')
 def stats():
-    return render_template('stats.html')
+    if 'logged_in' in session:
+        email = session['email']
+
+        account_created_date, days_from_account_creation = get_account_creation_info(email)
+        best_streak, current_streak, days_when_on_site = get_streaks_by_email(email)
+        return render_template('stats.html',
+                               account_created_date=account_created_date,
+                               days_from_account_creation=days_from_account_creation,
+                               best_streak=best_streak,
+                               current_streak=current_streak,
+                               days_when_on_site=days_when_on_site)
+    else:
+        return redirect(url_for('login'))
 
 @app.route('/kcal_calculator')
 def kcal_calculator():

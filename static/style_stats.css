@@ -82,8 +82,17 @@ h1 {
     color: #1d3557;
 }
 
-h3 {
+h2 {
     color: #1d3557;
+}
+
+h6 {
+    color: #1d3557;
+}
+
+.title_p {
+    font-size: 1.1rem;
+    font-weight: bold;
 }
 
 p {

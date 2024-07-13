@@ -22,36 +22,42 @@
 <div class="container">
     <h1>Account Statistics</h1>
     <div class="content">
-        <h3>Creation date</h3>
+        <h2>Creation date</h2>
         <div class="holder">
             <div class="stats-content">
                 <!-- Your stats content goes here -->
-                <p>Your statistics will be displayed here.</p>
+                <p class="title_p">Account created on:</p>
+                <p>{{account_created_date}}</p>
             </div>
             <div class="stats-content">
                 <!-- Your stats content goes here -->
-                <p>Your statistics will be displayed here.</p>
+                <p class="title_p">Days from account creation:</p>
+                <p>{{ days_from_account_creation }}</p>
             </div>
         </div>
-        <h3>Streaks</h3>
+        <h2>Streaks</h2>
         <div class="holder">
             <div class="stats-content">
                 <!-- Your stats content goes here -->
-                <p>Your streaks will be displayed here.</p>
+                <p class="title_p">Best streak</p>
+                <p>{{ best_streak }}</p>
             </div>
             <div class="stats-content">
                 <!-- Your stats content goes here -->
-                <p>Your streaks will be displayed here.</p>
+                <p class="title_p">Current streak</p>
+                <p>{{ current_streak }}</p>
             </div>
             <div class="stats-content">
                 <!-- Your stats content goes here -->
-                <p>Your streaks will be displayed here.</p>
+                <p class="title_p">Days on site</p>
+                <p>{{ days_when_on_site }}</p>
             </div>
         </div>
-        <h3>Average Calories Intake</h3>
+        <h2>Average Calories Intake</h2>
         <div class="holder">
             <div class="stats-content">
                 <!-- Your stats content goes here -->
+                <p class="title_p">Your average daily calories intake</p>
                 <p>Your average calories intake will be displayed here.</p>
             </div>
         </div>
