@@ -105,9 +105,11 @@ def kcal_calculator():
 def my_page():
     username = session['username']
     email = session['email']
+    gender = session['gender']
     return render_template('my_page.html',
                            username=username,
-                           email=email)
+                           email=email,
+                           gender=gender)
 
 @app.route('/history')
 def history():
