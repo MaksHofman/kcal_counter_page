@@ -1,6 +1,6 @@
 from flask import Flask, render_template, redirect, url_for, request, session
-from functions_module import *
-
+from user_functions import *
+from login_register import *
 
 app = Flask(__name__, static_url_path='/static')
 app.secret_key = 'your_secret_key'  # Change this to a secure secret key
