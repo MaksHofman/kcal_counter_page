@@ -1,5 +1,8 @@
 import sqlite3
-import datetime
+from datetime import datetime, timedelta
+import time
+
+
 def generacjia_daty_utowrzeniakonta() -> datetime:
     return datetime.now()
 def creating_db():
@@ -26,7 +29,8 @@ def creating_db():
         current_streak INTEGER,
         days_when_on_site INTEGER,
         added_produckts INTEGER,
-        pr_chest INTEGER
+        pr_chest INTEGER,
+        last_day_user_checked_site DATE
        )
         ''')
         conn.commit()
@@ -93,7 +97,21 @@ def creating_db():
         czas = generacjia_daty_utowrzeniakonta()
         c.execute(f'''
             INSERT INTO progress (user_id, progress_update,progress_update_date, progress_type)
-            VALUES ("amogus@gmail.pl", 20, {czas})
+            VALUES ("qw.qw@gmail.com", 25, "{czas}", 'mass')
+            ''')
+        conn.commit()
+        time.sleep(60)
+        czas = generacjia_daty_utowrzeniakonta()
+        c.execute(f'''
+            INSERT INTO progress (user_id, progress_update,progress_update_date, progress_type)
+            VALUES ("qw.qw@gmail.com", 40, "{czas}", 'mass')
+            ''')
+        conn.commit()
+        time.sleep(60)
+        czas = generacjia_daty_utowrzeniakonta()
+        c.execute(f'''
+            INSERT INTO progress (user_id, progress_update,progress_update_date, progress_type)
+            VALUES ("qw.qw@gmail.com", 60, "{czas}", 'mass')
             ''')
         conn.commit()
     def db_test_query(c, conn):
@@ -104,7 +122,7 @@ def creating_db():
 
     if __name__ == '__main__':
         c,conn = connect_to_db()
-        creating_db_users(c,conn)
+        #creating_db_users(c,conn)
         #c.execute('''
         #INSERT INTO users (username,email, password, mass, age)
         #VALUES ('kerry','kerry.com@gmail.pl', 'zx', 60, 20)
@@ -115,6 +133,8 @@ def creating_db():
         #products_table_test_data_init(c, conn)
         #progress_table_creation(c, conn)
         #db_test_query(c,conn)
+        add_test_progress(c, conn)
+        print("koniec")
         conn.close()
 
 if __name__ == '__main__':
