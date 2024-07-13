@@ -70,7 +70,25 @@ body {
     margin-top: 20px;
 }
 
+.holder {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    /*gap: 5%;*/
+}
+
+/*.header-holder {*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*    width: 100%;*/
+/*}*/
+
 h1 {
+    color: #1d3557;
+}
+
+h3 {
     color: #1d3557;
 }
 
@@ -84,12 +102,22 @@ p {
     background: transparent;
     padding: 20px;
     border-radius: 10px;
+    display: flex;
+    flex-direction: column;
 }
 
-.history-content {
+.my-page-content {
     padding: 20px;
     background: rgba(29, 53, 87, 0.1);
     border-radius: 10px;
+    min-width: 20ch;
+    margin-bottom: 2%;
+}
+
+.header-holder {
+    padding: 20px;
+    border-radius: 10px;
+    min-width: 20ch;
 }
 
 /* Responsive design */
