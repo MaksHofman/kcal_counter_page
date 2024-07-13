@@ -106,10 +106,18 @@ def my_page():
     username = session['username']
     email = session['email']
     gender = session['gender']
+    age = session['age']
+    height = session['height']
+    mass = session['mass']
+    activity_level = session['activity_level']
     return render_template('my_page.html',
                            username=username,
                            email=email,
-                           gender=gender)
+                           gender=gender,
+                           age=age,
+                           height=height,
+                           mass=mass,
+                           activity_level=activity_level)
 
 @app.route('/history')
 def history():
