@@ -74,10 +74,23 @@ def sign_out():
     session.pop('username', None)
     return redirect(url_for('login'))
 
-@app.route('/progress')
+@app.route('/progress', methods=['GET', 'POST'])
 def progress():
-    # Logic for progress page
-    return render_template('progress.html')
+    if 'logged_in' in session:
+        email = session.get('email')
+        output_int, output_date = get_progress_update(email,'mass')
+        progress_png = make_graf_out_of_progress(output_int, output_date, 'mass')
+        if request.method == 'POST':
+            new_progres_int = request.form['inputNumber']
+            new_progres_type = request.form['selectOptions']
+            add_new_record_to_progress(email, new_progres_int, new_progres_type)
+            output_int, output_date = get_progress_update(email, 'mass')
+            progress_png = make_graf_out_of_progress(output_int, output_date, 'mass')
+            return render_template('progress.html', progress_png=progress_png)
+
+        return render_template('progress.html',progress_png=progress_png)
+    else:
+        return redirect(url_for('login'))
 
 @app.route('/stats')
 def stats():
@@ -105,7 +118,7 @@ def kcal_calculator():
         kcal_goal = daily_goal_holder
         return render_template('kcal_calculator.html',bmr=bmr, ttde=ttde, kcal_goal=kcal_goal)
     else:
-        return redirect(url_for('kcal_calculator.html'))
+        return redirect(url_for('login'))
 
 
 @app.route('/my_page')

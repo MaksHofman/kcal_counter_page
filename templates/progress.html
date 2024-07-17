@@ -23,9 +23,33 @@
 <div class="container">
     <h1>Progress</h1>
     <div class="content">
-        <div class="progress-content">
-            <!-- Your stats content goes here -->
-            <p>Your progress will be displayed here.</p>
+        <div class="holder">
+            <div class="progress-content">
+                <!-- Your stats content goes here -->
+                <p>Progrs Graff</p>
+                 <img src="static/plots_saved_to_display/{{ progress_png }}" alt="Description of image">
+            </div>
+        </div>
+        <div class="holder">
+            <div class="progress-content">
+                <!-- Your stats content goes here -->
+                <p>ADD PROGRESS</p>
+                 <div class="form-container">
+                        <form action="{{ url_for('progress') }}" method="POST">
+                            <label for="infoInput">Enter Information:</label>
+                            <input type="number" id="infoInput" name="inputNumber" required>
+
+                            <label for="selectOptions">Choose an Option:</label>
+                            <select id="selectOptions" name="selectOptions" size="2" required>
+                                <option value="mass">mass</option>
+                                <option value="pr_chest">pr_chest</option>
+                            </select>
+
+                            <button type="submit">Submit</button>
+                        </form>
+                    </div>
+
+            </div>
         </div>
     </div>
 </div>

@@ -3,6 +3,9 @@ from datetime import datetime, timedelta
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 
+def get_date_now() -> datetime:
+    return datetime.now()
+
 def get_kcal_goal_from_db(email):
     conn = sqlite3.connect('website.db')
     cursor = conn.cursor()
@@ -26,6 +29,15 @@ def get_progress_update(email: str, type: str) -> tuple[list, list]:
         output_date.append(out[1])
     return output_int, output_date
 
+def add_new_record_to_progress(email, int_record, type_record):
+    conn = sqlite3.connect('website.db')
+    cursor = conn.cursor()
+    now = get_date_now()
+    print(email)
+    cursor.execute(f'''INSERT INTO progress (user_id, progress_update, progress_update_date, progress_type)
+                        VALUES ('{email}','{int(int_record)}','{now}','{str(type_record)}');''')
+    conn.commit()
+    conn.close()
 def make_graf_out_of_progress(output_int, output_date, type):
     dates = [datetime.strptime(date, '%Y-%m-%d %H:%M:%S.%f').date() for date in output_date]
     # Plotting the time series data
@@ -42,7 +54,8 @@ def make_graf_out_of_progress(output_int, output_date, type):
     plt.ylabel(type)
     plt.grid(True)
     #plt.show()
-    plt.savefig(f'static/plots_saved_to_display/{dates[-1]}.png')
+    plt.savefig(f'static/plots_saved_to_display/{dates[-1]}{type}.png')
+    return (f'{dates[-1]}{type}.png')
 
 
 def calculate_bmr(weight, height, age, gender):
