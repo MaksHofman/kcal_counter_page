@@ -1,5 +1,8 @@
 import sqlite3
 
+from flask import session
+
+
 def update_user_by_email(username, email, gender, age, height, mass, activity_level):
     conn = sqlite3.connect('website.db')
     cursor = conn.cursor()
@@ -17,3 +20,12 @@ def update_user_by_email(username, email, gender, age, height, mass, activity_le
     # Commit the changes and close the connection
     conn.commit()
     conn.close()
+
+
+def update_session_for_my_page(username, gender, age, height, mass, activity_level):
+    session['username'] = username
+    session['gender'] = gender
+    session['age'] = age
+    session['height'] = height
+    session['mass'] = mass
+    session['activity_level'] = activity_level
