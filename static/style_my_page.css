@@ -75,15 +75,16 @@ body {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    /*gap: 5%;*/
+    margin-bottom: 20px;
 }
 
-/*.header-holder {*/
-/*    display: flex;*/
-/*    justify-content: center;*/
-/*    align-items: center;*/
-/*    width: 100%;*/
-/*}*/
+.header-holder {
+    width: 30%;
+}
+
+.my-page-content {
+    width: 65%;
+}
 
 h1 {
     color: #1d3557;
@@ -91,11 +92,13 @@ h1 {
 
 h3 {
     color: #1d3557;
+    text-align: left;
 }
 
 p {
     color: #1d3557;
     margin-bottom: 20px;
+    text-align: left;
 }
 
 /* Content styles */
@@ -108,17 +111,77 @@ p {
 }
 
 .my-page-content {
-    padding: 20px;
+    padding: 10px;
     background: rgba(29, 53, 87, 0.1);
     border-radius: 10px;
     min-width: 20ch;
     margin-bottom: 2%;
+    display: flex;
+    align-items: center;
 }
 
-.header-holder {
-    padding: 20px;
+/* Styles for input and select elements */
+input[type="text"],
+input[type="number"],
+select {
+    width: 100%;
+    padding: 10px;
+    margin: 0;
+    border: 1px solid #1d3557;
     border-radius: 10px;
-    min-width: 20ch;
+    box-sizing: border-box;
+    font-size: 16px;
+    color: #1d3557;
+    background: rgba(255, 255, 255, 0.8);
+    transition: border 0.3s ease, box-shadow 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+select:focus {
+    border-color: #457b9d;
+    box-shadow: 0 0 10px rgba(69, 123, 157, 0.5);
+    outline: none;
+}
+
+/* Styles for select elements */
+select {
+    appearance: none;
+    background: rgba(255, 255, 255, 0.8) url('data:image/svg+xml;charset=US-ASCII,%3Csvg xmlns%3D"http%3A//www.w3.org/2000/svg" viewBox%3D"0 0 4 5"%3E%3Cpath fill%3D"%231d3557" d%3D"M2 0L0 2h4zm0 5L0 3h4z"/%3E%3C/svg%3E') no-repeat right 10px center;
+    padding-right: 30px; /* Adjust as per the background arrow size */
+}
+
+select::-ms-expand {
+    display: none;
+}
+
+/* Styles for options */
+option {
+    background: #fff;
+    color: #1d3557;
+}
+
+/* Styles for the Update button */
+#update-button {
+    background: #1d3557;
+    color: #fff;
+    padding: 15px 30px;
+    font-size: 16px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.3s ease;
+    margin-top: 20px;
+}
+
+#update-button:hover {
+    background: #457b9d;
+    transform: translateY(-2px);
+}
+
+#update-button:active {
+    transform: translateY(0);
+    background: #2a5298;
 }
 
 /* Responsive design */
@@ -147,5 +210,13 @@ p {
 
     .content {
         padding: 10px;
+    }
+
+    .holder {
+        flex-direction: column;
+    }
+
+    .header-holder, .my-page-content {
+        width: 100%;
     }
 }
