@@ -47,8 +47,8 @@
             </div>
             <div class="my-page-content">
                 <select name="gender">
-                    <option value="male" {% if gender == 'Male' %}selected{% endif %}>Male</option>
-                    <option value="female" {% if gender == 'Female' %}selected{% endif %}>Female</option>
+                    <option value="male" {% if gender == 'male' %}selected{% endif %}>Male</option>
+                    <option value="female" {% if gender == 'female' %}selected{% endif %}>Female</option>
                 </select>
             </div>
         </div>
@@ -82,11 +82,11 @@
             </div>
             <div class="my-page-content">
                 <select name="activity_level">
-                    <option value="sedentary" {% if activity_level == 'Sedentary' %}selected{% endif %}>Sedentary</option>
-                    <option value="lightly active" {% if activity_level == 'Lightly active' %}selected{% endif %}>Lightly active</option>
-                    <option value="moderately active" {% if activity_level == 'Moderately active' %}selected{% endif %}>Moderately active</option>
-                    <option value="very active" {% if activity_level == 'Very active' %}selected{% endif %}>Very active</option>
-                    <option value="super active" {% if activity_level == 'Super active' %}selected{% endif %}>Super active</option>
+                    <option value="sedentary" {% if activity_level == 'sedentary' %}selected{% endif %}>Sedentary</option>
+                    <option value="lightly active" {% if activity_level == 'lightly active' %}selected{% endif %}>Lightly active</option>
+                    <option value="moderately active" {% if activity_level == 'moderately active' %}selected{% endif %}>Moderately active</option>
+                    <option value="very active" {% if activity_level == 'very active' %}selected{% endif %}>Very active</option>
+                    <option value="super active" {% if activity_level == 'super active' %}selected{% endif %}>Super active</option>
                 </select>
             </div>
         </div>

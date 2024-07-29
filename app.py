@@ -150,8 +150,8 @@ def update_user():
     mass = request.form.get('mass')
     activity_level = request.form.get('activity_level')
     update_user_by_email(username, email, gender, age, height, mass, activity_level)
+    update_session_for_my_page(username, gender, age, height, mass, activity_level)
     return redirect(url_for('my_page'))
-
 @app.route('/history')
 def history():
     return render_template('history.html')
