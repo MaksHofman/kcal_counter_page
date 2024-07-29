@@ -2,6 +2,7 @@ from flask import Flask, render_template, redirect, url_for, request, session
 from stats_functions import *
 from login_register import *
 from kcal_functions import *
+from my_page_functions import *
 app = Flask(__name__, static_url_path='/static')
 app.secret_key = 'your_secret_key'  # Change this to a secure secret key
 
@@ -138,6 +139,18 @@ def my_page():
                            height=height,
                            mass=mass,
                            activity_level=activity_level)
+
+@app.route('/update_user', methods=['POST'])
+def update_user():
+    username = request.form.get('username')
+    email = session['email']
+    gender = request.form.get('gender')
+    age = request.form.get('age')
+    height = request.form.get('height')
+    mass = request.form.get('mass')
+    activity_level = request.form.get('activity_level')
+    update_user_by_email(username, email, gender, age, height, mass, activity_level)
+    return redirect(url_for('my_page'))
 
 @app.route('/history')
 def history():
