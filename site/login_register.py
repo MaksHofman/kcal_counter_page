@@ -4,7 +4,7 @@ import re
 
 
 def get_user_from_db(username):
-    conn = sqlite3.connect('website.db')
+    conn = sqlite3.connect('../database/website.db')
     cursor = conn.cursor()
     cursor.execute(f'SELECT username, mass, age, height, email, gender, activity_level FROM users WHERE username = "{username}";')
     output = cursor.fetchall()
@@ -13,7 +13,7 @@ def get_user_from_db(username):
 
 #funkcjia sprawdza czy mail juz jest uwzywany
 def check_email_exists(email: str) -> bool:
-    conn = sqlite3.connect('website.db')
+    conn = sqlite3.connect('../database/website.db')
     cursor = conn.cursor()
     cursor.execute(f'SELECT CASE WHEN EXISTS (SELECT 1 FROM users WHERE email="{email}") THEN 1 ELSE 0 END;')
     output = cursor.fetchall()
@@ -25,7 +25,7 @@ def check_email_exists(email: str) -> bool:
 
 #Funkcjia laczy sie z serwerm. Sprawdza czy haslo i login pasuja i zwraca boolowska wartosc
 def checking_if_login_correct(login: str, password: str) -> bool:
-    conn = sqlite3.connect('website.db')
+    conn = sqlite3.connect('../database/website.db')
     cursor = conn.cursor()
     if password != None:
         cursor.execute(f'SELECT CASE WHEN EXISTS (SELECT 1 FROM users WHERE username="{login}" AND password="{password}") THEN 1 ELSE 0 END;')
@@ -40,7 +40,7 @@ def checking_if_login_correct(login: str, password: str) -> bool:
         return False
 #dodaje uzytkownika i sprawdza czy uzytkownik sie stworzyl w bazie danych
 def dodaj_uzytkownika_do_db(login: str, email: str, password: str, creation_date:datetime) -> bool:
-    conn = sqlite3.connect('website.db')
+    conn = sqlite3.connect('../database/website.db')
     cursor = conn.cursor()
     cursor.execute(f"INSERT INTO users (username,email,password,account_created_date) VALUES ('{login}','{email}', '{password}','{creation_date}');")
     conn.commit()

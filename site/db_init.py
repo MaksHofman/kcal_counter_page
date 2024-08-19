@@ -7,7 +7,7 @@ def generacjia_daty_utowrzeniakonta() -> datetime:
     return datetime.now()
 def creating_db():
     def connect_to_db():
-        conn = sqlite3.connect('website.db')
+        conn = sqlite3.connect('../database/website.db')
         c = conn.cursor()
         return c, conn
 

@@ -7,7 +7,7 @@ def get_date_now() -> datetime:
     return datetime.now()
 
 def get_kcal_goal_from_db(email):
-    conn = sqlite3.connect('website.db')
+    conn = sqlite3.connect('../database/website.db')
     cursor = conn.cursor()
     cursor.execute(f'''SELECT kcal_goal FROM users WHERE email = "{email}";''')
     queary_output = cursor.fetchall()
@@ -15,7 +15,7 @@ def get_kcal_goal_from_db(email):
     return queary_output[0][0]
 # zwraca wartosci
 def get_progress_update(email: str, type: str) -> tuple[list, list]:
-    conn = sqlite3.connect('website.db')
+    conn = sqlite3.connect('../database/website.db')
     cursor = conn.cursor()
     cursor.execute(f'''SELECT progress_update, progress_update_date FROM progress
                        WHERE user_id = "{email}" AND progress_type="{type}"
@@ -30,7 +30,7 @@ def get_progress_update(email: str, type: str) -> tuple[list, list]:
     return output_int, output_date
 
 def add_new_record_to_progress(email, int_record, type_record):
-    conn = sqlite3.connect('website.db')
+    conn = sqlite3.connect('../database/website.db')
     cursor = conn.cursor()
     now = get_date_now()
     print(email)
