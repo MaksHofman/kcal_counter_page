@@ -6,8 +6,8 @@ def generacjia_daty_utowrzeniakonta() -> datetime:
     return datetime.now()
 
 # Get user's streaks by email
-def get_streaks_by_email(email):
-    conn = sqlite3.connect('../database/website.db')
+def get_streaks_by_email(email, database_path):
+    conn = sqlite3.connect(database_path)
     cursor = conn.cursor()
     cursor.execute(f'SELECT best_streak, current_streak, days_when_on_site FROM users WHERE email = "{email}";')
     output = cursor.fetchall()
@@ -19,8 +19,8 @@ def get_account_creation_info(email):
     days_from_account_creation = get_days_from_account_creation(account_created_date)
     return account_created_date_str, days_from_account_creation
 
-def get_account_created_date(email):
-    conn = sqlite3.connect('../database/website.db')
+def get_account_created_date(email, database_path):
+    conn = sqlite3.connect(database_path)
     cursor = conn.cursor()
     cursor.execute(f'SELECT account_created_date FROM users WHERE email = "{email}";')
     output = cursor.fetchall()

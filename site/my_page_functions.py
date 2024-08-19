@@ -3,8 +3,8 @@ import sqlite3
 from flask import session
 
 
-def update_user_by_email(username, email, gender, age, height, mass, activity_level):
-    conn = sqlite3.connect('../database/website.db')
+def update_user_by_email(username, email, gender, age, height, mass, activity_level, database_path):
+    conn = sqlite3.connect(database_path)
     cursor = conn.cursor()
 
     # Define the SQL update query

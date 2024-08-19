@@ -1,13 +1,19 @@
 import sqlite3
 from datetime import datetime, timedelta
 import time
-
-
+import os
+database_path = '../KCAL_COUNTER_PAGE/site/database_tmp/website.db'
+database_dir = '/database_tmp/'
 def generacjia_daty_utowrzeniakonta() -> datetime:
     return datetime.now()
+
 def creating_db():
+    db_dir = os.path.dirname(database_path)
+    if not os.path.exists(db_dir):
+        os.makedirs(db_dir)
+
     def connect_to_db():
-        conn = sqlite3.connect('../database/website.db')
+        conn = sqlite3.connect(database_path)
         c = conn.cursor()
         return c, conn
 
@@ -25,6 +31,7 @@ def creating_db():
         gender TEXT,
         goal TEXT,
         account_created_date DATE,
+        activity_level TEXT,
         best_streak INTEGER,
         current_streak INTEGER,
         days_when_on_site INTEGER,
@@ -42,8 +49,8 @@ def creating_db():
         VALUES ('qw','amogus@gmail.com', 'qw', 50, 20, 180)
         ''')
         c.execute('''
-        INSERT INTO users (username,email, password)
-        VALUES ('zx','amogus@gmail.pl', 'zx')
+        INSERT INTO users (username, email, password)
+        VALUES ('zx','ams@gmal.pl', 'zx')
         ''')
 
 
@@ -100,14 +107,14 @@ def creating_db():
             VALUES ("qw.qw@gmail.com", 25, "{czas}", 'mass')
             ''')
         conn.commit()
-        time.sleep(60)
+        time.sleep(10)
         czas = generacjia_daty_utowrzeniakonta()
         c.execute(f'''
             INSERT INTO progress (user_id, progress_update,progress_update_date, progress_type)
             VALUES ("qw.qw@gmail.com", 40, "{czas}", 'mass')
             ''')
         conn.commit()
-        time.sleep(60)
+        time.sleep(10)
         czas = generacjia_daty_utowrzeniakonta()
         c.execute(f'''
             INSERT INTO progress (user_id, progress_update,progress_update_date, progress_type)
@@ -122,17 +129,17 @@ def creating_db():
 
     if __name__ == '__main__':
         c,conn = connect_to_db()
-        #creating_db_users(c,conn)
+        creating_db_users(c,conn)
         #c.execute('''
         #INSERT INTO users (username,email, password, mass, age)
         #VALUES ('kerry','kerry.com@gmail.pl', 'zx', 60, 20)
         #''')
         #conn.commit()
-        #creating_test_data(c,conn)
-        #creating_db_products(c, conn)
-        #products_table_test_data_init(c, conn)
-        #progress_table_creation(c, conn)
-        #db_test_query(c,conn)
+        creating_test_data(c,conn)
+        creating_db_products(c, conn)
+        products_table_test_data_init(c, conn)
+        progress_table_creation(c, conn)
+        db_test_query(c,conn)
         add_test_progress(c, conn)
         print("koniec")
         conn.close()

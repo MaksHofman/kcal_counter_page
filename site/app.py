@@ -3,6 +3,7 @@ from stats_functions import *
 from login_register import *
 from kcal_functions import *
 from my_page_functions import *
+from db_init import database_path
 app = Flask(__name__, static_url_path='/static')
 app.secret_key = 'your_secret_key'  # Change this to a secure secret key
 
@@ -30,17 +31,17 @@ def register(confirm_password=None):
         else:
             session['inputed_email'] = email
 
-        if check_if_email_correct(email):
+        if check_if_email_correct(email, database_path):
             inputed_mail = email
         else:
             return render_template('register.html', inputed_username=inputed_username, inputed_mail="Email", wrong_register="Email is incorrect")
-        if checking_if_login_correct(login, None):
+        if checking_if_login_correct(login, None, database_path):
             return render_template('register.html',inputed_username="Username", inputed_mail="Email", wrong_register='Account already exists')
-        elif check_email_exists(email):
+        elif check_email_exists(email, database_path):
             return render_template('register.html',inputed_username=inputed_username, wrong_register='Email already exists')
         else:
             if password == confirm_password:
-                czy_sie_udalo = dodaj_uzytkownika_do_db(login, email, password, generacjia_daty_utowrzeniakonta())
+                czy_sie_udalo = dodaj_uzytkownika_do_db(login, email, password, generacjia_daty_utowrzeniakonta(), database_path)
                 if czy_sie_udalo:
                     return redirect(url_for('login'))
                 else:
@@ -53,9 +54,9 @@ def login():
     if request.method == 'POST':
         login = request.form['username']
         password = request.form['password']
-        if checking_if_login_correct(login, password):
+        if checking_if_login_correct(login, password, database_path):
             session['logged_in'] = True
-            username, mass, age, height, email, gender, activity_level = get_user_from_db(login)
+            username, mass, age, height, email, gender, activity_level = get_user_from_db(login, database_path)
             session['username'] = username
             session['mass'] = mass
             session['age'] = age
@@ -79,14 +80,14 @@ def sign_out():
 def progress():
     if 'logged_in' in session:
         email = session.get('email')
-        output_int, output_date = get_progress_update(email,'mass')
-        progress_png = make_graf_out_of_progress(output_int, output_date, 'mass')
+        output_int, output_date = get_progress_update(email,'mass', database_path)
+        progress_png = make_graf_out_of_progress(output_int, output_date, 'mass', database_path)
         if request.method == 'POST':
             new_progres_int = request.form['inputNumber']
             new_progres_type = request.form['selectOptions']
-            add_new_record_to_progress(email, new_progres_int, new_progres_type)
-            output_int, output_date = get_progress_update(email, 'mass')
-            progress_png = make_graf_out_of_progress(output_int, output_date, 'mass')
+            add_new_record_to_progress(email, new_progres_int, new_progres_type, database_path)
+            output_int, output_date = get_progress_update(email, 'mass', database_path)
+            progress_png = make_graf_out_of_progress(output_int, output_date, 'mass', database_path)
             return render_template('progress.html', progress_png=progress_png)
 
         return render_template('progress.html',progress_png=progress_png)
@@ -98,8 +99,8 @@ def stats():
     if 'logged_in' in session:
         email = session.get('email')
 
-        account_created_date, days_from_account_creation = get_account_creation_info(email)
-        best_streak, current_streak, days_when_on_site = get_streaks_by_email(email)
+        account_created_date, days_from_account_creation = get_account_creation_info(email, database_path)
+        best_streak, current_streak, days_when_on_site = get_streaks_by_email(email, database_path)
         ttde = calculate_tdee(calculate_bmr(session.get('mass'),session.get('height'), session.get('age'), session.get('gender')), activity_level=session.get('activity_level'))
         return render_template('stats.html',
                                account_created_date=account_created_date,
@@ -149,8 +150,8 @@ def update_user():
     height = request.form.get('height')
     mass = request.form.get('mass')
     activity_level = request.form.get('activity_level')
-    update_user_by_email(username, email, gender, age, height, mass, activity_level)
-    update_session_for_my_page(username, gender, age, height, mass, activity_level)
+    update_user_by_email(username, email, gender, age, height, mass, activity_level, database_path)
+    update_session_for_my_page(username, gender, age, height, mass, activity_level, database_path)
     return redirect(url_for('my_page'))
 @app.route('/history')
 def history():
