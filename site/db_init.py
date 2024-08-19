@@ -2,7 +2,7 @@ import sqlite3
 from datetime import datetime, timedelta
 import time
 import os
-database_path = '../KCAL_COUNTER_PAGE/site/database_tmp/website.db'
+database_path = '../KCal_counter_page/site/database_tmp/website.db'
 database_dir = '/database_tmp/'
 def generacjia_daty_utowrzeniakonta() -> datetime:
     return datetime.now()
