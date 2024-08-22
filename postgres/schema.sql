@@ -1,0 +1,35 @@
+CREATE TABLE IF NOT EXISTS users (
+        username TEXT NOT NULL UNIQUE,
+        email TEXT NOT NULL UNIQUE,
+        password TEXT NOT NULL,
+        mass INTEGER,
+        age INTEGER,
+        height INTEGER,
+        gender TEXT,
+        goal TEXT,
+        account_created_date DATE,
+        activity_level TEXT,
+        best_streak INTEGER,
+        current_streak INTEGER,
+        days_when_on_site INTEGER,
+        added_produckts INTEGER,
+        pr_chest INTEGER,
+        last_day_user_checked_site DATE,
+        PRIMARY KEY (email)
+       );
+            CREATE TABLE IF NOT EXISTS products (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL UNIQUE,
+            company TEXT NOT NULL,
+            shop TEXT NOT NULL,
+            mass INTEGER NOT NULL,
+            energy_value FLOAT NOT NULL,
+            fat FLOAT NOT NULL,
+            saturated_fat FLOAT NOT NULL,
+            carbohydrates FLOAT NOT NULL,
+            sugars FLOAT NOT NULL,
+            fiber FLOAT NOT NULL,
+            proteins FLOAT NOT NULL,
+            salts FLOAT NOT NULL,
+            rating FLOAT NOT NULL
+            )
