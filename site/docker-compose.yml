@@ -1,18 +1,17 @@
-version: '3.8'
-
 services:
-  web:
-    build: .
-    ports:
-      - "5000:5000"
-    volumes:
-      - .:/app
-    environment:
-      FLASK_ENV: production
-    depends_on:
-      - db
-
-  db:
+   redis: 
+     image: redislabs/redismod
+     ports:
+       - '6379:6379' 
+   web:
+        build: .
+        ports:
+            - "8000:8000"
+        volumes:
+            - .:/code
+        depends_on:
+            - redis
+   db:
     image: postgres:13
     environment:
       POSTGRES_USER: myuser
@@ -22,4 +21,4 @@ services:
       - postgres_data:/var/lib/postgresql/data
 
 volumes:
-  postgres_data:
+  postgres_data:  
