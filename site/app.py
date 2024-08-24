@@ -35,7 +35,7 @@ def register(confirm_password=None):
         else:
             session['input_email'] = email
 
-        if check_if_email_correct(email, database_path):
+        if check_if_email_correct(email):
             input_mail = email
         else:
             return render_template('register.html', input_username=input_username, input_mail="Email",

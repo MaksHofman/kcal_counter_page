@@ -45,7 +45,7 @@ def add_user_to_db(login: str, email: str, password: str, creation_date:datetime
     cursor.execute(f"INSERT INTO users (username,email,password,account_created_date) VALUES ('{login}','{email}', '{password}','{creation_date}');")
     conn.commit()
     conn.close()
-    if checking_if_login_correct(login, password):
+    if checking_if_login_correct(login, password, database_path):
         return True
     else:
         return False
