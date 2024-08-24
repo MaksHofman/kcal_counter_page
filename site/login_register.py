@@ -39,7 +39,7 @@ def checking_if_login_correct(login: str, password: str, database_path) -> bool:
     else:
         return False
 #dodaje uzytkownika i sprawdza czy uzytkownik sie stworzyl w bazie danych
-def dodaj_uzytkownika_do_db(login: str, email: str, password: str, creation_date:datetime, database_path) -> bool:
+def add_user_to_db(login: str, email: str, password: str, creation_date:datetime, database_path) -> bool:
     conn = sqlite3.connect(database_path)
     cursor = conn.cursor()
     cursor.execute(f"INSERT INTO users (username,email,password,account_created_date) VALUES ('{login}','{email}', '{password}','{creation_date}');")

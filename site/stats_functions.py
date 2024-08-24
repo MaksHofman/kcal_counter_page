@@ -2,7 +2,7 @@ import sqlite3
 from datetime import datetime, timedelta
 import re
 
-def generacjia_daty_utowrzeniakonta() -> datetime:
+def account_creation_date_generation() -> datetime:
     return datetime.now()
 
 # Get user's streaks by email

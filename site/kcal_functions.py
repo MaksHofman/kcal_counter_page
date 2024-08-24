@@ -40,11 +40,29 @@ def add_new_record_to_progress(email, int_record, type_record, database_path):
     conn.close()
 def make_graf_out_of_progress(output_int, output_date, type):
     dates = [datetime.strptime(date, '%Y-%m-%d %H:%M:%S.%f').date() for date in output_date]
-    # Plotting the time series data
+
+    if not dates:
+        # Generate a plot with a message indicating no data
+        plt.figure(figsize=(10, 5), facecolor='#0f3057')
+
+        # Set the background and title style
+        plt.gca().set_facecolor('#ffffff')
+        plt.text(0.5, 0.5, 'No data entered yet', horizontalalignment='center', verticalalignment='center',
+                 fontsize=18, color='#ffffff', transform=plt.gca().transAxes,
+                 fontname='Segoe UI')
+
+        plt.title('Progress of Measurements Over Time', fontsize=20, color='#ffffff', fontname='Segoe UI')
+
+        # Hide the axes
+        plt.axis('off')
+
+        # Save the plot
+        plt.savefig(f'static/plots_saved_to_display/no_data_{type}.png', bbox_inches='tight', facecolor='#0f3057')
+        return (f'no_data_{type}.png')
+
     plt.figure(figsize=(10, 5))
     plt.plot(dates, output_int, marker='o', linestyle='-', color='b')
 
-    # Formatting the plot
     plt.gcf().autofmt_xdate()
     plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%d-%m-%Y'))
     plt.gca().xaxis.set_major_locator(mdates.WeekdayLocator(interval=1))
@@ -53,7 +71,6 @@ def make_graf_out_of_progress(output_int, output_date, type):
     plt.xlabel('Date')
     plt.ylabel(type)
     plt.grid(True)
-    #plt.show()
     plt.savefig(f'static/plots_saved_to_display/{dates[-1]}{type}.png')
     return (f'{dates[-1]}{type}.png')
 
