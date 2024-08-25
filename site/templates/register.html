@@ -11,14 +11,14 @@
         <h1>Register</h1>
         <form action="{{ url_for('register') }}" method="POST">
             {% if not inputed_username %}
-            <input type="text" name="username" placeholder={{ inputed_username }} required>
+            <input type="text" name="username" placeholder={{ input_username }} required>
             {% else %}
-            <input type="text" name="username" placeholder={{ inputed_username }}>
+            <input type="text" name="username" placeholder={{ input_username }}>
             {% endif %}
             {% if not inputed_mail %}
-            <input type="text" name="email" placeholder={{ inputed_mail }} required>
+            <input type="text" name="email" placeholder={{ input_mail }} required>
             {% else %}
-            <input type="text" name="email" placeholder={{ inputed_mail }}>
+            <input type="text" name="email" placeholder={{ input_mail }}>
             {% endif %}
             <input type="password" name="password" placeholder="Password" required>
             <input type="password" name="confirm_password" placeholder="Confirm Password" required>
