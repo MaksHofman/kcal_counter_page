@@ -99,7 +99,7 @@ def calculate_tdee(bmr, activity_level):
     """Calculate Total Daily Energy Expenditure (TDEE)"""
 
     if bmr == 0:
-        return "Not available yet. Visit [My Page] to update your account"
+        return 'Not available yet. Visit <a href="/my_page">My Page</a> to update your account'
 
     activity_factors = {
         'sedentary': 1.2,
