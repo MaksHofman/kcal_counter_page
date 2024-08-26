@@ -7,25 +7,17 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    <div class="container">
-        <h1>Register</h1>
-        <form action="{{ url_for('register') }}" method="POST">
-            {% if not inputed_username %}
-            <input type="text" name="username" placeholder={{ input_username }} required>
-            {% else %}
-            <input type="text" name="username" placeholder={{ input_username }}>
-            {% endif %}
-            {% if not inputed_mail %}
-            <input type="text" name="email" placeholder={{ input_mail }} required>
-            {% else %}
-            <input type="text" name="email" placeholder={{ input_mail }}>
-            {% endif %}
-            <input type="password" name="password" placeholder="Password" required>
-            <input type="password" name="confirm_password" placeholder="Confirm Password" required>
-            <button type="submit">Register</button>
-        </form>
-        <p style="color: red;">{{ wrong_register }}</p>
-        <p>Already have an account? <a href="{{ url_for('login') }}">Login here</a></p>
-    </div>
+<div class="container">
+    <h1>Register</h1>
+    <form action="{{ url_for('register') }}" method="POST">
+        <input type="text" name="username" placeholder="{{ input_username or 'Username' }}" required>
+        <input type="text" name="email" placeholder="{{ input_mail or 'Email' }}" required>
+        <input type="password" name="password" placeholder="Password" required>
+        <input type="password" name="confirm_password" placeholder="Confirm Password" required>
+        <button type="submit">Register</button>
+    </form>
+    <p style="color: red;">{{ wrong_register }}</p>
+    <p>Already have an account? <a href="{{ url_for('login') }}">Login here</a></p>
+</div>
 </body>
 </html>
