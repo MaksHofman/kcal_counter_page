@@ -37,4 +37,6 @@ def get_account_created_date(email, database_path):
     return account_created_date_str, account_created_date
 
 def get_days_from_account_creation(account_created_date):
+    if not account_created_date:
+        return None
     return (datetime.now() - account_created_date).days
