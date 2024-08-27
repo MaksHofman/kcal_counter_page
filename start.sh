@@ -5,8 +5,6 @@ if [ "$1" = -h ]; then
   exit 1
 fi
 
-sudo ss -lptn 'sport = :8080' | kill $(awk '{print $6}' | cut -d, -f1 | cut -d= -f2)
-
 PROJECT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_NAME="$(basename "${PROJECT_DIR}")"
 

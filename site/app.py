@@ -12,6 +12,7 @@ app.secret_key = 'your_secret_key'  # Change this to a secure secret key
 
 @app.route('/')
 def home():
+    print(database_path)
     return render_template('home.html')
 
 
