@@ -1,0 +1,6 @@
+version: "3"
+services:
+  kcal-app:
+    image: kcal-app-image:1.0
+    ports:
+      - 5001:5000
