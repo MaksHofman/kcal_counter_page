@@ -1,58 +1,46 @@
-import sqlite3
 from datetime import datetime, timedelta
+from models import db, User
 import re
 
 
-def get_user_from_db(username, database_path):
-    conn = sqlite3.connect(database_path)
-    cursor = conn.cursor()
-    cursor.execute(f'SELECT username, mass, age, height, email, gender, activity_level FROM users WHERE username = "{username}";')
-    output = cursor.fetchall()
-    conn.close()
-    return output[0][0], output[0][1], output[0][2], output[0][3], output[0][4], output[0][5], output[0][6]
-
-#funkcjia sprawdza czy mail juz jest uwzywany
-def check_email_exists(email: str, database_path) -> bool:
-    conn = sqlite3.connect(database_path)
-    cursor = conn.cursor()
-    cursor.execute(f'SELECT CASE WHEN EXISTS (SELECT 1 FROM users WHERE email="{email}") THEN 1 ELSE 0 END;')
-    output = cursor.fetchall()
-    conn.close()
-    if output[0][0] == 1:
-        return True
+def get_user_from_db(username):
+    user = User.query.filter_by(username=username).first()
+    if user:
+        return user.username, user.mass, user.age, user.height, user.email, user.gender, user.activity_level
     else:
+        return None, None, None, None, None, None, None
+
+
+# Checks if an email is already in use
+def check_email_exists(email: str) -> bool:
+    return User.query.filter_by(email=email).first() is not None
+
+
+# Checks if login credentials are correct
+def checking_if_login_correct(login: str, password: str) -> bool:
+    user = User.query.filter_by(username=login, password=password).first()
+    return user is not None
+
+
+# Adds a user to the database
+def add_user_to_db(username: str, email: str, password: str, creation_date: datetime) -> bool:
+    try:
+        if not check_email_exists(email):
+            new_user = User(username=username, email=email, password=password, account_created_date=creation_date)
+            db.session.add(new_user)
+            db.session.commit()
+            print("User added successfully")
+            return True
+        else:
+            print("Email already exists")
+            return False
+    except Exception as e:
+        db.session.rollback()
+        print(f"Error adding user to DB: {e}")
         return False
 
-#Funkcjia laczy sie z serwerm. Sprawdza czy haslo i login pasuja i zwraca boolowska wartosc
-def checking_if_login_correct(login: str, password: str, database_path) -> bool:
-    conn = sqlite3.connect(database_path)
-    cursor = conn.cursor()
-    if password != None:
-        cursor.execute(f'SELECT CASE WHEN EXISTS (SELECT 1 FROM users WHERE username="{login}" AND password="{password}") THEN 1 ELSE 0 END;')
-        output = cursor.fetchall()
-    else:
-        cursor.execute(f'SELECT CASE WHEN EXISTS (SELECT 1 FROM users WHERE username="{login}") THEN 1 ELSE 0 END;')
-        output = cursor.fetchall()
-    conn.close()
-    if output[0][0] == 1:
-        return True
-    else:
-        return False
-#dodaje uzytkownika i sprawdza czy uzytkownik sie stworzyl w bazie danych
-def add_user_to_db(login: str, email: str, password: str, creation_date:datetime, database_path) -> bool:
-    conn = sqlite3.connect(database_path)
-    cursor = conn.cursor()
-    cursor.execute(f"INSERT INTO users (username,email,password,account_created_date) VALUES ('{login}','{email}', '{password}','{creation_date}');")
-    conn.commit()
-    conn.close()
-    if checking_if_login_correct(login, password, database_path):
-        return True
-    else:
-        return False
 
-def check_if_email_correct(email:str) -> bool:
+
+def check_if_email_correct(email: str) -> bool:
     regex = r'^\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
-    if re.match(regex, email):
-        return True
-    else:
-        return False
+    return re.match(regex, email) is not None
