@@ -1,5 +1,8 @@
-from flask import Flask, redirect, render_template, request, session, url_for
+import os
 
+from flask_sqlalchemy import SQLAlchemy
+from flask import Flask, redirect, render_template, request, session, url_for
+from models import db, User, Product, Progress
 from db_init import database_path
 from kcal_functions import *
 from login_register import *
@@ -7,7 +10,13 @@ from my_page_functions import *
 from stats_functions import *
 
 app = Flask(__name__, static_url_path='/static')
-app.secret_key = 'your_secret_key'  # Change this to a secure secret key
+app.secret_key = 'your_secret_key'
+
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+#db = SQLAlchemy(app)
+db.init_app(app)
 
 
 @app.route('/')
@@ -41,16 +50,15 @@ def register(confirm_password=None):
         else:
             return render_template('register.html', input_username=input_username, input_mail="Email",
                                    wrong_register="Email is incorrect")
-        if checking_if_login_correct(login, None, database_path):
+        if checking_if_login_correct(login, None):
             return render_template('register.html', input_username="Username", input_mail="Email",
                                    wrong_register='Account already exists')
-        elif check_email_exists(email, database_path):
+        elif check_email_exists(email):
             return render_template('register.html', input_username=input_username,
                                    wrong_register='Email already exists')
         else:
             if password == confirm_password:
-                was_successful = add_user_to_db(login, email, password, account_creation_date_generation(),
-                                                database_path)
+                was_successful = add_user_to_db(login, email, password, account_creation_date_generation())
                 if was_successful:
                     return redirect(url_for('login'))
                 else:
@@ -66,9 +74,9 @@ def login():
     if request.method == 'POST':
         login = request.form['username']
         password = request.form['password']
-        if checking_if_login_correct(login, password, database_path):
+        if checking_if_login_correct(login, password):
             session['logged_in'] = True
-            username, mass, age, height, email, gender, activity_level = get_user_from_db(login, database_path)
+            username, mass, age, height, email, gender, activity_level = get_user_from_db(login)
             session['username'] = username
             session['mass'] = mass
             session['age'] = age
