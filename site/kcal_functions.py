@@ -1,48 +1,43 @@
 import sqlite3
 from datetime import datetime, timedelta
+
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
+
+from models import db, User, Progress
 
 
 def get_date_now() -> datetime:
     return datetime.now()
 
 
-def get_kcal_goal_from_db(email, database_path):
-    conn = sqlite3.connect(database_path)
-    cursor = conn.cursor()
-    cursor.execute(f'''SELECT goal FROM users WHERE email = "{email}";''')
-    queary_output = cursor.fetchall()
-    conn.close()
-    return queary_output[0][0]
+def get_kcal_goal_from_db(email):
+    user = User.query.filter_by(email=email).first()
+    if user:
+        return user.goal
+    return None
 
 
-# zwraca wartosci
-def get_progress_update(email: str, type: str, database_path) -> tuple[list, list]:
-    conn = sqlite3.connect(database_path)
-    cursor = conn.cursor()
-    cursor.execute(f'''SELECT progress_update, progress_update_date FROM progress
-                       WHERE user_id = "{email}" AND progress_type="{type}"
-                       ORDER BY progress_update_date asc;''')
-    queary_output = cursor.fetchall()
-    conn.close()
-    output_int = []
-    output_date = []
-    for out in queary_output:
-        output_int.append(out[0])
-        output_date.append(out[1])
-    return output_int, output_date
+def get_progress_update(email: str, progress_type: str) -> tuple[list, list]:
+    user = User.query.filter_by(email=email).first()
+    if user:
+        progress_records = Progress.query.filter_by(user_id=user.email, progress_type=progress_type).order_by(Progress.progress_update_date.asc()).all()
 
+        output_int = [record.progress_update for record in progress_records]
+        output_date = [record.progress_update_date.strftime('%Y-%m-%d %H:%M:%S.%f') for record in progress_records]
+        return output_int, output_date
+    return [], []
 
-def add_new_record_to_progress(email, int_record, type_record, database_path):
-    conn = sqlite3.connect(database_path)
-    cursor = conn.cursor()
-    now = get_date_now()
-    print(email)
-    cursor.execute(f'''INSERT INTO progress (user_id, progress_update, progress_update_date, progress_type)
-                        VALUES ('{email}','{int(int_record)}','{now}','{str(type_record)}');''')
-    conn.commit()
-    conn.close()
+def add_new_record_to_progress(email, int_record, type_record):
+    user = User.query.filter_by(email=email).first()
+    if user:
+        new_progress = Progress(
+            user_id=user.email,
+            progress_update=float(int_record),
+            progress_type=type_record
+        )
+        db.session.add(new_progress)
+        db.session.commit()
 
 
 def make_graf_out_of_progress(output_int, output_date, type):

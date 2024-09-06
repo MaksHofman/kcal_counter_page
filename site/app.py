@@ -101,14 +101,14 @@ def sign_out():
 def progress():
     if 'logged_in' in session:
         email = session.get('email')
-        output_int, output_date = get_progress_update(email, 'mass', database_path)
+        output_int, output_date = get_progress_update(email, 'mass')
         progress_png = make_graf_out_of_progress(output_int, output_date, 'mass')
         if request.method == 'POST':
             new_progres_int = request.form['inputNumber']
             new_progres_type = request.form['selectOptions']
-            add_new_record_to_progress(email, new_progres_int, new_progres_type, database_path)
-            output_int, output_date = get_progress_update(email, 'mass', database_path)
-            progress_png = make_graf_out_of_progress(output_int, output_date, 'mass', database_path)
+            add_new_record_to_progress(email, new_progres_int, new_progres_type)
+            output_int, output_date = get_progress_update(email, 'mass')
+            progress_png = make_graf_out_of_progress(output_int, output_date, 'mass')
             return render_template('progress.html', progress_png=progress_png)
 
         return render_template('progress.html', progress_png=progress_png)
@@ -121,8 +121,8 @@ def stats():
     if 'logged_in' in session:
         email = session.get('email')
 
-        account_created_date, days_from_account_creation = get_account_creation_info(email, database_path)
-        best_streak, current_streak, days_when_on_site = get_streaks_by_email(email, database_path)
+        account_created_date, days_from_account_creation = get_account_creation_info(email)
+        best_streak, current_streak, days_when_on_site = get_streaks_by_email(email)
         ttde = calculate_tdee(
             calculate_bmr(session.get('mass'), session.get('height'), session.get('age'), session.get('gender')),
             activity_level=session.get('activity_level'))
@@ -141,7 +141,7 @@ def kcal_calculator():
     if 'logged_in' in session:
         bmr = calculate_bmr(session.get('mass'), session.get('height'), session.get('age'), session.get('gender'))
         ttde = calculate_tdee(bmr, activity_level=session.get('activity_level'))
-        daily_goal_holder = get_kcal_goal_from_db(session.get('email'), database_path)
+        daily_goal_holder = get_kcal_goal_from_db(session.get('email'))
         kcal_goal = daily_goal_holder
         return render_template('kcal_calculator.html', bmr=bmr, ttde=ttde, kcal_goal=kcal_goal)
     else:
@@ -169,17 +169,24 @@ def my_page():
 
 @app.route('/update_user', methods=['POST'])
 def update_user():
-    username = request.form.get('username')
     email = session['email']
-    gender = request.form.get('gender')
-    age = request.form.get('age')
-    height = request.form.get('height')
-    mass = request.form.get('mass')
-    activity_level = request.form.get('activity_level')
-    update_user_by_email(username, email, gender, age, height, mass, activity_level, database_path)
-    update_session_for_my_page(username, gender, age, height, mass, activity_level, database_path)
-    return redirect(url_for('my_page'))
 
+    if email:
+        username = request.form.get('username')
+        gender = request.form.get('gender')
+        age = request.form.get('age')
+        height = request.form.get('height')
+        mass = request.form.get('mass')
+        activity_level = request.form.get('activity_level')
+
+        # Update the user in the database
+        update_user_by_email(username, email, gender, age, height, mass, activity_level)
+
+        # Update the session with the new data
+        update_session_for_my_page(username, gender, age, height, mass, activity_level)
+        return redirect(url_for('my_page'))
+    else:
+        return redirect(url_for('login'))
 
 @app.route('/history')
 def history():

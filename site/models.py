@@ -43,7 +43,6 @@ class Product(db.Model):
 
 class Progress(db.Model):
     __tablename__ = 'progress'
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.String, db.ForeignKey('users.email'), nullable=False)
     progress_update = db.Column(db.Integer, nullable=False)
     progress_update_date = db.Column(db.Date, nullable=False)
