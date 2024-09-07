@@ -36,9 +36,12 @@ CREATE TABLE IF NOT EXISTS products (
 );
 
 CREATE TABLE IF NOT EXISTS progress (
+    id SERIAL PRIMARY KEY, 
     user_id TEXT,
     progress_update INTEGER NOT NULL,
     progress_update_date DATE NOT NULL,
     progress_type TEXT NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users(email)
 );
+
+COMMENT ON COLUMN progress.id IS 'sqlalchemy error workaround';
