@@ -2,6 +2,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
+
 class User(db.Model):
     __tablename__ = 'users'
     email = db.Column(db.String, primary_key=True)
@@ -24,6 +25,7 @@ class User(db.Model):
     # Relationship
     progress = db.relationship('Progress', backref='user', lazy=True)
 
+
 class Product(db.Model):
     __tablename__ = 'products'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -41,9 +43,9 @@ class Product(db.Model):
     salts = db.Column(db.Float, nullable=False)
     rating = db.Column(db.Float, nullable=False)
 
+
 class Progress(db.Model):
     __tablename__ = 'progress'
-    id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.String, db.ForeignKey('users.email'), nullable=False)
     progress_update = db.Column(db.Integer, nullable=False)
     progress_update_date = db.Column(db.Date, nullable=False)

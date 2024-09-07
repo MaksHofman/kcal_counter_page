@@ -36,8 +36,8 @@ CREATE TABLE IF NOT EXISTS products (
 );
 
 CREATE TABLE IF NOT EXISTS progress (
-    id SERIAL PRIMARY KEY, 
-    user_id TEXT,
+    id SERIAL PRIMARY KEY,
+    user_id TEXT NOT NULL,
     progress_update INTEGER NOT NULL,
     progress_update_date DATE NOT NULL,
     progress_type TEXT NOT NULL,
