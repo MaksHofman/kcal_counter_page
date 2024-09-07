@@ -33,6 +33,7 @@ export website_PROJ_DIR="${PROJECT_DIR}/site"
 export website_COMPOSE_FILE="${website_PROJ_DIR}/docker-compose.yml"
 
 if [ ! -n "$(docker image ls | grep "${PROJECT_NAME}-flask")" ]; then
+  echo $website_IMAGE_NAME
   docker build -t "${PROJECT_NAME}-flask" "${website_PROJ_DIR}"
   export website_IMAGE_NAME="${PROJECT_NAME}-flask"
 fi
