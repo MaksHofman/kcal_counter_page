@@ -43,5 +43,3 @@ CREATE TABLE IF NOT EXISTS progress (
     progress_type TEXT NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users(email)
 );
-
-COMMENT ON COLUMN progress.id IS 'sqlalchemy error workaround';
