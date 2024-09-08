@@ -26,7 +26,7 @@ def get_account_creation_info(email):
 def get_account_created_date(email):
     user = User.query.filter_by(email=email).first()
     if user and user.account_created_date:
-        account_created_date_str = user.account_created_date.strftime("%m.%d.%y")
+        account_created_date_str = user.account_created_date.strftime("%d.%m.%y")
         return account_created_date_str, user.account_created_date
     else:
         return None, None
@@ -35,4 +35,5 @@ def get_account_created_date(email):
 def get_days_from_account_creation(account_created_date):
     if not account_created_date:
         return None
-    return (datetime.now() - account_created_date).days
+
+    return (datetime.now().date() - account_created_date).days
