@@ -34,6 +34,7 @@ def add_new_record_to_progress(email, int_record, type_record):
         new_progress = Progress(
             user_id=user.email,
             progress_update=float(int_record),
+            progress_update_date=get_date_now(),
             progress_type=type_record
         )
         db.session.add(new_progress)
