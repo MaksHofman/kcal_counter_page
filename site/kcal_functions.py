@@ -79,6 +79,9 @@ def make_graf_out_of_progress(output_int, output_date, type):
 
 
 def calculate_bmr(weight, height, age, gender):
+    weight = int(weight)
+    age = int(age)
+    height = int(height)
     """Calculate Basal Metabolic Rate (BMR) using Mifflin-St Jeor Equation"""
     if gender == 'male':
         bmr = 10 * weight + 6.25 * height - 5 * age + 5
