@@ -1,12 +1,5 @@
 version: "3.8"
 services:
-  kcal-app:
-    image: kcal-app-image:1.0
-    ports:
-      - 5001:5000
-    environment:
-      - DATABASE_URL=postgresql://postgres:password@postgres-db:5432/postgres
-
   postgres-db:
     image: kcal-postgres:1.0
     ports:
@@ -15,6 +8,15 @@ services:
       POSTGRES_PASSWORD: password
     volumes:
       - pgdata:/var/lib/postgresql/data
+
+  kcal-app:
+    image: kcal-app-image:1.0
+    ports:
+      - 5001:5000
+    environment:
+      - DATABASE_URL=postgresql://postgres:password@postgres-db:5432/postgres
+    depends_on:
+      - postgres-db
 
 volumes:
   pgdata:
