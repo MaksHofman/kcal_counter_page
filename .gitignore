@@ -2,3 +2,5 @@
 .idea/
 __pycache__/
 site/__pycache__/
+identifier.sqlite
+site/static/plots_saved_to_display/no_data_mass.png

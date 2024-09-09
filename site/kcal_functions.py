@@ -79,6 +79,9 @@ def make_graf_out_of_progress(output_int, output_date, type):
 
 
 def calculate_bmr(weight, height, age, gender):
+    if not all([weight, height, age, gender]):
+        return 0
+    
     weight = int(weight)
     age = int(age)
     height = int(height)
