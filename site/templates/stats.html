@@ -23,17 +23,12 @@
 <div class="container">
     <h1>Account Statistics</h1>
     <div class="content">
-        <h2>Creation date</h2>
+        <h2>Total Daily Energy Expenditure</h2>
         <div class="holder">
             <div class="stats-content">
                 <!-- Your stats content goes here -->
-                <p class="title_p">Account created on:</p>
-                <p>{{account_created_date}}</p>
-            </div>
-            <div class="stats-content">
-                <!-- Your stats content goes here -->
-                <p class="title_p">Days from account creation:</p>
-                <p>{{ days_from_account_creation }}</p>
+                <p class="title_p">Your Total Daily Energy Expenditure</p>
+                <p>{{ ttde|safe }}</p>
             </div>
         </div>
         <h2>Streaks</h2>
@@ -54,14 +49,20 @@
                 <p>{{ days_when_on_site }}</p>
             </div>
         </div>
-        <h2>Total Daily Energy Expenditure</h2>
+        <h2>Creation date</h2>
         <div class="holder">
             <div class="stats-content">
                 <!-- Your stats content goes here -->
-                <p class="title_p">Your Total Daily Energy Expenditure</p>
-                <p>{{ ttde|safe }}</p>
+                <p class="title_p">Account created on:</p>
+                <p>{{account_created_date}}</p>
+            </div>
+            <div class="stats-content">
+                <!-- Your stats content goes here -->
+                <p class="title_p">Days from account creation:</p>
+                <p>{{ days_from_account_creation }}</p>
             </div>
         </div>
+
     </div>
 </div>
 </body>
