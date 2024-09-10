@@ -43,3 +43,12 @@ CREATE TABLE IF NOT EXISTS progress (
     progress_type TEXT NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users(email)
 );
+
+CREATE TABLE IF NOT EXISTS user_calories (
+    id SERIAL PRIMARY KEY,
+    user_email TEXT NOT NULL,
+    kcal_count INTEGER NOT NULL,
+    entry_date DATE NOT NULL,
+    goal INTEGER,
+    FOREIGN KEY (user_email) REFERENCES users(email)
+);
