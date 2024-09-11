@@ -201,8 +201,10 @@ def history():
 def user_page():
     if 'logged_in' in session:
         username = session['username']
+        email = session['email']
 
-        caloric_goal = 2052
+        caloric_goal = get_goal_by_email(email) if get_goal_by_email(email) else "Not set"
+
         calories_today = 1969
 
         return render_template('user_page.html', username=username, goal=caloric_goal, calories=calories_today)
