@@ -21,11 +21,43 @@
     </div>
 </div>
 <div class="container">
-    <h1>Welcome back, {{ username }}!</h1>
     <div class="content">
-        {% block content %}
-        {% endblock %}
+        <div class="section">
+            <h1>Welcome back, {{ username }}</h1>
+            <div class="top">
+                <div class="graph-holder"></div>
+                <div class="calories-display">{{ calories }} / {{ goal }}</div>
+            </div>
+            <div class="adjust-btn-holder">
+                <button id="adj-btn">Adjust your goal</button>
+            </div>
+        </div>
+        <div class="section">
+            <h1>Add your calories</h1>
+            <div class="add-form-holder">
+                <form>
+                    <label for="add">+</label>
+                    <input id="add" type="number" placeholder="kcal" min="0">
+                    <button type="submit" id="add-btn">Add</button>
+                </form>
+            </div>
+        </div>
     </div>
 </div>
+
+<div id="goal-modal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <h2>Adjust Your Calorie Goal</h2>
+        <form id="goal-form" action="{{ url_for('update_goal') }}" method="post">
+            <label for="new-goal">New Goal:</label>
+            <input id="new-goal" type="number" placeholder="Enter new goal" min="0" required name="goal">
+            <button type="submit">Update Goal</button>
+        </form>
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/user_page.js') }}"></script>
+
 </body>
 </html>

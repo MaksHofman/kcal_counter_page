@@ -8,6 +8,7 @@ from kcal_functions import *
 from login_register import *
 from my_page_functions import *
 from stats_functions import *
+from user_page_functions import *
 
 app = Flask(__name__, static_url_path='/static')
 app.secret_key = 'your_secret_key'
@@ -185,9 +186,11 @@ def update_user():
 
         # Update the session with the new data
         update_session_for_my_page(username, gender, age, height, mass, activity_level)
+
         return redirect(url_for('my_page'))
     else:
         return redirect(url_for('login'))
+
 
 @app.route('/history')
 def history():
@@ -198,7 +201,26 @@ def history():
 def user_page():
     if 'logged_in' in session:
         username = session['username']
-        return render_template('user_page.html', username=username)
+
+        caloric_goal = 2052
+        calories_today = 1969
+
+        return render_template('user_page.html', username=username, goal=caloric_goal, calories=calories_today)
+    else:
+        return redirect(url_for('login'))
+
+
+@app.route('/update_goal', methods=['POST'])
+def update_goal():
+    if 'logged_in' in session:
+        email = session['email']
+        new_goal = request.form.get('goal')
+
+        if email and new_goal:
+            update_goal_by_email(email, new_goal)
+            return redirect(url_for('user_page'))
+        else:
+            return "An error occurred. Please try again."
     else:
         return redirect(url_for('login'))
 

@@ -1,4 +1,8 @@
 /* General styles */
+:root {
+    --dark-blue: #1d3557;
+}
+
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: linear-gradient(to right, #0f3057, #2a5298);
@@ -28,7 +32,7 @@ body {
 }
 
 .top-bar a {
-    color: #1d3557;
+    color: var(--dark-blue);
     text-decoration: none;
     margin: 0 10px;
     padding: 10px;
@@ -48,7 +52,7 @@ body {
 .login-box .btn {
     display: inline-block;
     padding: 10px 20px;
-    background: #1d3557;
+    background: var(--dark-blue);
     color: #fff;
     text-decoration: none;
     border-radius: 5px;
@@ -59,32 +63,110 @@ body {
     background: #457b9d;
 }
 
+#add-btn:hover {
+    background: #457b9d;
+}
+
 /* Container styles */
 .container {
-    max-width: 600px;
     padding: 40px;
     background: rgba(255, 255, 255, 0.9);
     border-radius: 10px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
     text-align: center;
-    margin-top: 100px; /* Increased margin to prevent overlap with navbar */
+    margin-top: 100px;
     position: relative;
 }
 
 h1 {
-    color: #1d3557;
+    color: var(--dark-blue);
 }
 
 p {
-    color: #1d3557;
+    color: var(--dark-blue);
     margin-bottom: 20px;
 }
 
-/* Content styles */
+.section {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
 .content {
     background: transparent;
     padding: 20px;
     border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+}
+
+.graph-holder {
+    width: 130px;
+    height: 130px;
+    background: #252525;
+    border-radius: 60px;
+}
+
+.top {
+    display: flex;
+    gap: 50px;
+}
+
+.calories-display {
+    font-size: 3rem;
+    color: var(--dark-blue);
+    display: flex;
+    align-items: center;
+    letter-spacing: 2px;
+}
+
+.adjust-btn-holder {
+    display: flex;
+    justify-content: center;
+}
+
+.adjust-btn-holder button {
+    padding: 10px 20px;
+    background: var(--dark-blue);
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    width: 260px;
+    height: 60px;
+    font-size: 1.25rem;
+}
+
+.adjust-btn-holder button:hover {
+    background: #457b9d;
+}
+
+label {
+    color: var(--dark-blue)
+}
+
+input {
+    padding: 1px 10px;
+    font: inherit;
+    outline: none;
+    color: var(--dark-blue);
+    width: 250px;
+    height: 50px;
+}
+
+button[type="submit"] {
+    background: var(--dark-blue);
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
 }
 
 /* Responsive design */
@@ -114,4 +196,67 @@ p {
     .content {
         padding: 10px;
     }
+}
+
+/* Modal Styles */
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.45);
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 10% auto;
+    padding: 20px;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 500px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+}
+
+.close-btn {
+    color: var(--dark-blue);
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close-btn:hover,
+.close-btn:focus {
+    color: #457b9d;
+}
+
+h2 {
+    color: var(--dark-blue);
+    margin-top: 0;
+}
+
+label {
+    color: var(--dark-blue);
+}
+
+.modal button[type="submit"] {
+    margin-left: 2%;
+    background: var(--dark-blue);
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    width: auto;
+    height: 50px;
+    font-size: 1rem;
+}
+
+.modal button[type="submit"]:hover {
+    background: #457b9d;
 }

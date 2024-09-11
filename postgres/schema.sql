@@ -49,6 +49,5 @@ CREATE TABLE IF NOT EXISTS user_calories (
     user_email TEXT NOT NULL,
     kcal_count INTEGER NOT NULL,
     entry_date DATE NOT NULL,
-    goal INTEGER,
     FOREIGN KEY (user_email) REFERENCES users(email)
 );
