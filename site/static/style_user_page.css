@@ -170,33 +170,38 @@ button[type="submit"] {
     font-size: 1rem;
 }
 
-/* Responsive design */
-@media (max-width: 600px) {
-    .navbar {
-        flex-direction: column;
-        align-items: flex-start;
-    }
+/* Records Styles */
 
-    .top-bar {
-        flex-direction: column;
-        width: 100%;
-    }
+.calories-records-holder {
+    display: flex;
+    justify-content: center;
+}
 
-    .top-bar a {
-        margin: 5px 0;
-    }
+.calories-records-holder ul {
+    list-style: none;
+    color: var(--dark-blue);
+    padding: 0;
+    margin: 0;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
 
-    .login-box {
-        margin-top: 10px;
-    }
+.calories-records-holder li {
+    background: #fff;
+    padding: 10px 5px;
+    border-radius: 5px;
+    border: 1px solid black;
+}
 
-    .container {
-        padding: 20px;
-    }
+.calories-records-holder li {
+    display: flex;
+    justify-content: space-between;
+}
 
-    .content {
-        padding: 10px;
-    }
+.calories-records-holder p {
+    margin: 0;
 }
 
 /* Modal Styles */
@@ -260,4 +265,33 @@ label {
 
 .modal button[type="submit"]:hover {
     background: #457b9d;
+}
+
+/* Responsive design */
+@media (max-width: 600px) {
+    .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .top-bar {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .top-bar a {
+        margin: 5px 0;
+    }
+
+    .login-box {
+        margin-top: 10px;
+    }
+
+    .container {
+        padding: 20px;
+    }
+
+    .content {
+        padding: 10px;
+    }
 }

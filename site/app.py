@@ -204,10 +204,20 @@ def user_page():
         email = session['email']
 
         caloric_goal = get_goal_by_email(email) if get_goal_by_email(email) else "Not set"
-
         calories_today = get_calories_today_by_email(email)
+        calories_today_records = get_records_calories_today_by_email(email)
 
-        return render_template('user_page.html', username=username, goal=caloric_goal, calories=calories_today)
+        # with open("logs.txt", "a") as f:
+        #     f.write(str(calories_today_records))
+        #     f.write("\n")
+
+        return render_template(
+            'user_page.html',
+            username=username,
+            goal=caloric_goal,
+            calories=calories_today,
+            calories_records=calories_today_records
+        )
     else:
         return redirect(url_for('login'))
 

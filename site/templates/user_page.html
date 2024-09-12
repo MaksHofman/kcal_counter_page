@@ -37,11 +37,25 @@
             <div class="add-form-holder">
                 <form action="{{ url_for('add_user_calories') }}" method="post">
                     <label for="add">+</label>
-                    <input id="add" type="number" placeholder="kcal" min="0" name="kcal_count" required>
+                    <input id="add" type="number" placeholder="kcal" min="0" max="2147483647" name="kcal_count" required>
                     <button type="submit" id="add-btn">Add</button>
                 </form>
             </div>
         </div>
+        {% if calories_records %}
+            <div class="section">
+                <div class="calories-records-holder">
+                    <ul>
+                        {% for entry in calories_records %}
+                            <li>
+                                <p>+{{ entry.kcal_count }} kcal</p>
+                                <p> {{  entry.entry_date.strftime('%H:%M') }}</p>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        {% endif %}
     </div>
 </div>
 
