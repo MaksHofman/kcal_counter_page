@@ -35,9 +35,9 @@
         <div class="section">
             <h1>Add your calories</h1>
             <div class="add-form-holder">
-                <form>
+                <form action="{{ url_for('add_user_calories') }}" method="post">
                     <label for="add">+</label>
-                    <input id="add" type="number" placeholder="kcal" min="0">
+                    <input id="add" type="number" placeholder="kcal" min="0" name="kcal_count" required>
                     <button type="submit" id="add-btn">Add</button>
                 </form>
             </div>

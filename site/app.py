@@ -227,5 +227,20 @@ def update_goal():
         return redirect(url_for('login'))
 
 
+@app.route('/add_user_calories', methods=['POST'])
+def add_user_calories():
+    if 'logged_in' in session:
+        email = session['email']
+        kcal_count = request.form.get('kcal_count')
+
+        if email and kcal_count:
+            add_user_calories_by_email(email, kcal_count)
+            return redirect(url_for('user_page'))
+        else:
+            return "An error occurred while adding calories. Please try again."
+    else:
+        return redirect(url_for('login'))
+
+
 if __name__ == '__main__':
     app.run(debug=True)

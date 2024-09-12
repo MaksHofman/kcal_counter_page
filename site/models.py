@@ -22,8 +22,9 @@ class User(db.Model):
     pr_chest = db.Column(db.Integer, nullable=True)
     last_day_user_checked_site = db.Column(db.Date, nullable=True)
 
-    # Relationship
+    # Relationships
     progress = db.relationship('Progress', backref='user', lazy=True)
+    user_calories = db.relationship('UserCalories', backref='user', lazy=True)
 
 
 class Product(db.Model):
@@ -51,3 +52,12 @@ class Progress(db.Model):
     progress_update = db.Column(db.Integer, nullable=False)
     progress_update_date = db.Column(db.Date, nullable=False)
     progress_type = db.Column(db.String, nullable=False)
+
+
+class UserCalories(db.Model):
+    __tablename__ = 'user_calories'
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    user_email = db.Column(db.String, db.ForeignKey('users.email'), nullable=False)
+    kcal_count = db.Column(db.Integer, nullable=False)
+    entry_date = db.Column(db.DateTime, nullable=False)
