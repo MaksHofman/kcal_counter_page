@@ -252,5 +252,19 @@ def add_user_calories():
         return redirect(url_for('login'))
 
 
+@app.route('/delete_calories/<int:entry_id>', methods=['POST'])
+def delete_calories(entry_id):
+    if 'logged_in' in session:
+        email = session['email']
+
+        if email and entry_id:
+            if delete_calories_record_from_db(email, entry_id):
+                return redirect(url_for('user_page'))
+            else:
+                return "An error occurred. Please try again."
+        return "An error occurred. Please try again."
+    return redirect(url_for('login'))
+
+
 if __name__ == '__main__':
     app.run(debug=True)
