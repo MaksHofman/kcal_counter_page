@@ -50,6 +50,7 @@
                             <li>
                                 <p>+{{ entry.kcal_count }} kcal</p>
                                 <p> {{  entry.entry_date.strftime('%H:%M') }}</p>
+                                <button class="delete-btn" data-entry-id="{{ entry.id }}">🗑️</button>
                             </li>
                         {% endfor %}
                     </ul>
