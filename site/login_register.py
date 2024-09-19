@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import date, datetime, timedelta
 from models import db, User
 import re
 
@@ -27,6 +27,7 @@ def add_user_to_db(username: str, email: str, password: str, creation_date: date
     try:
         if not check_email_exists(email):
             new_user = User(username=username, email=email, password=password, account_created_date=creation_date)
+            user_streak_init(new_user)
             db.session.add(new_user)
             db.session.commit()
             print("User added successfully")
@@ -40,7 +41,14 @@ def add_user_to_db(username: str, email: str, password: str, creation_date: date
         return False
 
 
-
+# Utility functions
 def check_if_email_correct(email: str) -> bool:
     regex = r'^\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
     return re.match(regex, email) is not None
+
+
+def user_streak_init(user):
+    user.best_streak = 1
+    user.current_streak = 1
+    user.days_when_on_site = 1
+    user.last_day_user_checked_site = date.today()
