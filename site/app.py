@@ -75,7 +75,7 @@ def login():
     if request.method == 'POST':
         login = request.form['username']
         password = request.form['password']
-        if checking_if_login_correct(login, password):
+        if checking_if_login_correct(login, password) and anti_sql_injection_login_check(login, password):
             session['logged_in'] = True
             username, mass, age, height, email, gender, activity_level = get_user_from_db(login)
             session['username'] = username

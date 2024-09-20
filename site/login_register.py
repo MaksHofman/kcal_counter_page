@@ -2,6 +2,8 @@ from datetime import date, datetime, timedelta
 from models import db, User
 import re
 
+__login_check = r'^[A-Za-z]+$'
+__password_check = r'^[A-Za-z0-9]+$'
 
 def get_user_from_db(username):
     user = User.query.filter_by(username=username).first()
@@ -10,6 +12,11 @@ def get_user_from_db(username):
     else:
         return None, None, None, None, None, None, None
 
+def anti_sql_injection_login_check(login, password) -> bool:
+    if re.match(__login_check, login) and re.match(__password_check, password):
+        return True
+    else:
+        return False
 
 # Checks if an email is already in use
 def check_email_exists(email: str) -> bool:
