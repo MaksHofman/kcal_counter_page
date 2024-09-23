@@ -51,3 +51,4 @@ CREATE TABLE IF NOT EXISTS user_calories (
     entry_date TIMESTAMP NOT NULL,
     FOREIGN KEY (user_email) REFERENCES users(email)
 );
+
