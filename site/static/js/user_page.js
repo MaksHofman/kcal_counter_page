@@ -41,4 +41,40 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+
+    // Calories Graph
+    let caloriesToday = parseInt(document.getElementById('calories').value);
+    let caloricGoal = parseInt(document.getElementById('goal').value);
+
+    const showTooltip = !isNaN(caloricGoal);
+    if (isNaN(caloricGoal)) {
+        caloricGoal = 1;
+        caloriesToday = 0;
+    }
+
+    const remainingCalories = caloricGoal - caloriesToday >= 0 ? caloricGoal - caloriesToday : 0;
+
+    const ctx = document.getElementById('calories-chart').getContext('2d');
+    const caloriesChart = new Chart(ctx , {
+        type: 'doughnut',
+        data: {
+            labels: ['Calories Consumed', 'Remaining Calories'],
+            datasets: [{
+                data: [caloriesToday, remainingCalories],
+                backgroundColor: ['#d3b03e', '#0f3057'],
+                hoverOffset: 4
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    enabled: showTooltip
+                }
+            }
+        }
+    });
 });

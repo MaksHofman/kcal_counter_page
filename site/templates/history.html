@@ -24,8 +24,26 @@
     <h1>History</h1>
     <div class="content">
         <div class="history-content">
-            <!-- Your stats content goes here -->
-            <p>Your history will be displayed here.</p>
+        {% if history_records %}
+            <table class="content-table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Calories</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for record in history_records %}
+                    <tr>
+                        <td>{{ record.date }}</td>
+                        <td>{{ record.calories }} / {{ record.goal }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+        <p>Your history will be displayed here</p>
+        {%  endif %}
         </div>
     </div>
 </div>

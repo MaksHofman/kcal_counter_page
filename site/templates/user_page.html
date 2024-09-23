@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Page</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style_user_page.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>  <!-- library for chart generation -->
 </head>
 <body>
 <div class="navbar">
@@ -25,8 +26,12 @@
         <div class="section">
             <h1>Welcome back, {{ username }}</h1>
             <div class="top">
-                <div class="graph-holder"></div>
+                <div class="graph-holder">
+                    <canvas id="calories-chart"></canvas>
+                </div>
                 <div class="calories-display">{{ calories }} / {{ goal }}</div>
+                <input type="hidden" id="calories" value="{{ calories }}">
+                <input type="hidden" id="goal" value="{{ goal }}">
             </div>
             <div class="adjust-btn-holder">
                 <button id="adj-btn">Adjust your goal</button>

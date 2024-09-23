@@ -4,11 +4,10 @@ body {
     background: linear-gradient(to right, #0f3057, #2a5298);
     color: #fff;
     margin: 0;
-    padding: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 100vh;
+    padding: 0 0 20px;
 }
 
 /* Navbar styles */
@@ -91,6 +90,43 @@ p {
     background: rgba(29, 53, 87, 0.1);
     border-radius: 10px;
 }
+
+.content-table {
+    border-collapse: collapse;
+    margin: 25px 0;
+    /*font-size: 0.9rem;*/
+    min-width: 400px;
+    border-radius: 5px 5px 0 0;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+.content-table thead tr {
+    background-color: #0f3057;
+    color: #ffffff;
+    text-align: left;
+    font-weight: bold;
+}
+
+.content-table th,
+.content-table td {
+    padding: 12px 15px;
+}
+
+.content-table tbody tr {
+    border-bottom: 1px solid rgba(24, 48, 82, 0.1);
+    text-align: left;
+    color: #0f3057;
+}
+
+.content-table tbody tr:nth-of-type(even) {
+    background-color: rgba(28, 52, 86, 0.1);
+}
+
+.content-table tbody tr:last-of-type {
+    border-bottom: 2px solid #0f3057;
+}
+
 
 /* Responsive design */
 @media (max-width: 600px) {

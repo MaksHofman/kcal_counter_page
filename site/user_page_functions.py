@@ -93,7 +93,7 @@ def update_streak(user):
 
     if user.current_streak > user.best_streak:
         user.best_streak = user.current_streak
-    
+
     user.days_when_on_site += 1
 
     user.last_day_user_checked_site = today

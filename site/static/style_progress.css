@@ -4,11 +4,10 @@ body {
     background: linear-gradient(to right, #0f3057, #2a5298);
     color: #fff;
     margin: 0;
-    padding: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 100vh;
+    padding: 0 0 20px;
 }
 
 .form-container {

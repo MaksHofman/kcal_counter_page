@@ -9,6 +9,7 @@ from login_register import *
 from my_page_functions import *
 from stats_functions import *
 from user_page_functions import *
+from history_functions import *
 
 app = Flask(__name__, static_url_path='/static')
 app.secret_key = 'your_secret_key'
@@ -194,7 +195,14 @@ def update_user():
 
 @app.route('/history')
 def history():
-    return render_template('history.html')
+    if 'logged_in' in session:
+        email = session.get('email')
+
+        history_records = get_history_by_email(email)
+
+        return render_template('history.html', history_records=history_records)
+    else:
+        return redirect(url_for('login'))
 
 
 @app.route('/user_page')
@@ -206,10 +214,6 @@ def user_page():
         caloric_goal = get_goal_by_email(email) if get_goal_by_email(email) else "Not set"
         calories_today = get_calories_today_by_email(email)
         calories_today_records = get_records_calories_today_by_email(email)
-
-        # with open("logs.txt", "a") as f:
-        #     f.write(str(calories_today_records))
-        #     f.write("\n")
 
         return render_template(
             'user_page.html',
