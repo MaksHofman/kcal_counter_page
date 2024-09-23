@@ -5,6 +5,7 @@ db = SQLAlchemy()
 
 class User(db.Model):
     __tablename__ = 'users'
+
     email = db.Column(db.String, primary_key=True)
     username = db.Column(db.String, nullable=False, unique=True)
     password = db.Column(db.String, nullable=False)
@@ -25,10 +26,12 @@ class User(db.Model):
     # Relationships
     progress = db.relationship('Progress', backref='user', lazy=True)
     user_calories = db.relationship('UserCalories', backref='user', lazy=True)
+    calories_history = db.relationship('CaloriesHistory', backref='user', lazy=True)
 
 
 class Product(db.Model):
     __tablename__ = 'products'
+
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String, nullable=False, unique=True)
     company = db.Column(db.String, nullable=False)
@@ -47,6 +50,7 @@ class Product(db.Model):
 
 class Progress(db.Model):
     __tablename__ = 'progress'
+
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.String, db.ForeignKey('users.email'), nullable=False)
     progress_update = db.Column(db.Integer, nullable=False)
@@ -61,3 +65,13 @@ class UserCalories(db.Model):
     user_email = db.Column(db.String, db.ForeignKey('users.email'), nullable=False)
     kcal_count = db.Column(db.Integer, nullable=False)
     entry_date = db.Column(db.DateTime, nullable=False)
+
+
+class CaloriesHistory(db.Model):
+    __tablename__ = 'calories_history'
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    user_email = db.Column(db.String, db.ForeignKey('users.email'), nullable=False)
+    kcal_count = db.Column(db.Integer, nullable=False)
+    goal = db.Column(db.String, nullable=False)
+    entry_date = db.Column(db.Date, nullable=False)

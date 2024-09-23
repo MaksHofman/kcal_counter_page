@@ -234,6 +234,7 @@ def update_goal():
 
         if email and new_goal:
             update_goal_by_email(email, new_goal)
+            update_today_history_goal(email, new_goal)
             return redirect(url_for('user_page'))
         else:
             return "An error occurred. Please try again."
@@ -249,6 +250,7 @@ def add_user_calories():
 
         if email and kcal_count:
             add_user_calories_by_email(email, kcal_count)
+            update_today_history(email, kcal_count)
             return redirect(url_for('user_page'))
         else:
             return "An error occurred while adding calories. Please try again."

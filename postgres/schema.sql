@@ -52,3 +52,11 @@ CREATE TABLE IF NOT EXISTS user_calories (
     FOREIGN KEY (user_email) REFERENCES users(email)
 );
 
+CREATE TABLE IF NOT EXISTS calories_history (
+    id SERIAL PRIMARY KEY,
+    user_email TEXT NOT NULL,
+    kcal_count INTEGER NOT NULL,
+    goal INTEGER NOT NULL,
+    entry_date DATE NOT NULL,
+    FOREIGN KEY (user_email) REFERENCES users(email)
+);

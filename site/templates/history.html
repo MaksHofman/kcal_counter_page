@@ -35,8 +35,8 @@
                 <tbody>
                     {% for record in history_records %}
                     <tr>
-                        <td>{{ record.date }}</td>
-                        <td>{{ record.calories }} / {{ record.goal }}</td>
+                        <td>{{ record.entry_date }}</td>
+                        <td>{{ record.kcal_count }} / {{ record.goal }}</td>
                     </tr>
                 {% endfor %}
                 </tbody>
