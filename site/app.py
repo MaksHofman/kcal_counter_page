@@ -231,10 +231,14 @@ def update_goal():
     if 'logged_in' in session:
         email = session['email']
         new_goal = request.form.get('goal')
+        goal_type = request.form.get('goal_type')
 
-        if email and new_goal:
-            update_goal_by_email(email, new_goal)
-            update_today_history_goal(email, new_goal)
+        if goal_type not in ["bulk", "cut"]:
+            return redirect(url_for('user_page'))
+
+        if email and new_goal and goal_type:
+            update_goal_by_email(email, new_goal, goal_type)
+            update_today_history_goal(email, new_goal, goal_type)
             return redirect(url_for('user_page'))
         else:
             return "An error occurred. Please try again."

@@ -30,6 +30,7 @@
                     <tr>
                         <th>Date</th>
                         <th>Calories</th>
+                        <th>Status</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -37,6 +38,15 @@
                     <tr>
                         <td>{{ record.entry_date }}</td>
                         <td>{{ record.kcal_count }} / {{ record.goal }}</td>
+                        <td class="status-cell">
+                            {% if record.goal_type == 'bulk' and record.kcal_count >= record.goal %}
+                                <span class="goal-achieved">&#10004;</span>
+                            {% elif record.goal_type == 'cut' and record.kcal_count <= record.goal %}
+                                <span class="goal-achieved">&#10004;</span>
+                            {% else %}
+                                <span class="goal-failed">&#10008;</span>
+                            {% endif %}
+                        </td>
                     </tr>
                 {% endfor %}
                 </tbody>

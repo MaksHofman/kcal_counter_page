@@ -7,6 +7,7 @@ CREATE TABLE IF NOT EXISTS users (
     height INTEGER,
     gender TEXT,
     goal TEXT,
+    goal_type TEXT,
     account_created_date DATE,
     activity_level TEXT,
     best_streak INTEGER,
@@ -57,6 +58,7 @@ CREATE TABLE IF NOT EXISTS calories_history (
     user_email TEXT NOT NULL,
     kcal_count INTEGER NOT NULL,
     goal INTEGER NOT NULL,
+    goal_type TEXT NOT NULL,
     entry_date DATE NOT NULL,
     FOREIGN KEY (user_email) REFERENCES users(email)
 );

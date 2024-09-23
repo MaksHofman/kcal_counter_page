@@ -73,7 +73,7 @@ body {
     border-radius: 10px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
     text-align: center;
-    margin-top: 100px;
+    margin-top: 20px;
     position: relative;
     min-width: 600px;
     margin-bottom: 20px
@@ -254,7 +254,6 @@ label {
 }
 
 .modal button[type="submit"] {
-    margin-left: 2%;
     background: var(--dark-blue);
     color: #fff;
     border: none;
@@ -268,6 +267,36 @@ label {
 
 .modal button[type="submit"]:hover {
     background: #457b9d;
+}
+
+#new-goal {
+    width: 70%;
+    box-sizing: border-box;
+    padding: 10px;
+    font-size: 1rem;
+    margin: 20px 0;
+}
+
+.goal-type-selector {
+    width: 70%;
+    padding: 10px;
+    font-size: 1rem;
+    margin: 20px 0;
+    border: 1px solid var(--dark-blue);
+    border-radius: 5px;
+    color: var(--dark-blue);
+    background-color: #fff;
+    transition: border 0.3s ease, background-color 0.3s ease;
+}
+
+.goal-type-selector:focus {
+    border-color: #457b9d;
+    background-color: rgba(69, 123, 157, 0.1);
+}
+
+.submit-button-holder {
+    display: grid;
+    place-items: center;
 }
 
 /* Responsive design */

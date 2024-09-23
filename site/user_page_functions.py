@@ -2,6 +2,7 @@ from datetime import datetime, date, time, timedelta
 
 from models import db, User, UserCalories
 
+from history_functions import delete_kcal_from_history
 
 def get_goal_by_email(email):
     user = User.query.filter_by(email=email).first()
@@ -48,17 +49,19 @@ def get_records_calories_today_by_email(email):
 def delete_calories_record_from_db(email, entry_id):
     record = calorie_record_owned_by_user(email, entry_id)
     if record:
+        delete_kcal_from_history(email, record.kcal_count)
         db.session.delete(record)
         db.session.commit()
         return True
     return False
 
 
-def update_goal_by_email(email, goal):
+def update_goal_by_email(email, goal, goal_type):
     user = User.query.filter_by(email=email).first()
 
     if user:
         user.goal = goal
+        user.goal_type = goal_type
         db.session.commit()
     else:
         raise ValueError("User does not exist")

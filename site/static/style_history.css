@@ -94,7 +94,6 @@ p {
 .content-table {
     border-collapse: collapse;
     margin: 25px 0;
-    /*font-size: 0.9rem;*/
     min-width: 400px;
     border-radius: 5px 5px 0 0;
     overflow: hidden;
@@ -125,6 +124,18 @@ p {
 
 .content-table tbody tr:last-of-type {
     border-bottom: 2px solid #0f3057;
+}
+
+.content-table .status-cell {
+    padding-left: 30px;
+}
+
+.goal-achieved {
+    color: green;
+}
+
+.goal-failed {
+    color: red;
 }
 
 

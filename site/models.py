@@ -14,6 +14,7 @@ class User(db.Model):
     height = db.Column(db.Integer, nullable=True)
     gender = db.Column(db.String, nullable=True)
     goal = db.Column(db.String, nullable=True)
+    goal_type = db.Column(db.String, nullable=True)
     account_created_date = db.Column(db.Date, nullable=True)
     activity_level = db.Column(db.String, nullable=True)
     best_streak = db.Column(db.Integer, nullable=True)
@@ -74,4 +75,5 @@ class CaloriesHistory(db.Model):
     user_email = db.Column(db.String, db.ForeignKey('users.email'), nullable=False)
     kcal_count = db.Column(db.Integer, nullable=False)
     goal = db.Column(db.String, nullable=False)
+    goal_type = db.Column(db.String, nullable=True)
     entry_date = db.Column(db.Date, nullable=False)

@@ -70,9 +70,20 @@
         <span class="close-btn">&times;</span>
         <h2>Adjust Your Calorie Goal</h2>
         <form id="goal-form" action="{{ url_for('update_goal') }}" method="post">
-            <label for="new-goal">New Goal:</label>
-            <input id="new-goal" type="number" placeholder="Enter new goal" min="0" required name="goal">
-            <button type="submit">Update Goal</button>
+            <div>
+                <label for="new-goal">New Goal:</label>
+                <input id="new-goal" type="number" placeholder="Enter new goal" min="0" required name="goal">
+            </div>
+            <div>
+                <label for="goal-type">Goal Type:</label>
+                <select id="goal-type" name="goal_type" class="goal-type-selector">
+                    <option value="bulk">Bulk</option>
+                    <option value="cut">Cut</option>
+                </select>
+            </div>
+            <div class="submit-button-holder">
+                <button type="submit">Update Goal</button>
+            </div>
         </form>
     </div>
 </div>
