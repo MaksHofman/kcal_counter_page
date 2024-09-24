@@ -30,26 +30,26 @@
                  <img src="static/plots_saved_to_display/{{ progress_png }}" alt="Description of image">
             </div>
         </div>
-        <h1>ADD PROGRESS</h1>
+        <h1>Add progress</h1>
         <div class="holder">
             <div class="progress-content">
-                <!-- Your stats content goes here -->
-                <p></p>
-                 <div class="form-container">
-                        <form action="{{ url_for('progress') }}" method="POST">
-                            <label for="infoInput">Enter Information:</label>
-                            <input type="number" id="infoInput" name="inputNumber" required>
+                <div class="form-container">
+                    <form action="{{ url_for('progress') }}" method="POST">
+                        <label for="infoInput">Enter Value:</label>
+                        <input type="number" id="infoInput" name="inputNumber" required>
 
-                            <label for="selectOptions">Choose an Option:</label>
-                            <select id="selectOptions" name="selectOptions" size="2" required>
-                                <option value="mass">mass</option>
-                                <option value="pr_chest">pr_chest</option>
-                            </select>
+                        <label for="selectOptions">Choose a progress type:</label>
+                        <select id="selectOptions" name="selectOptions" required>
+                            <option value="mass">Mass</option>
+                            <option value="pr_chest">Chest PR</option>
+                            <option value="pr_deadlift">Deadlift PR</option>
+                            <option value="pr_squat">Squat PR</option>
+                            <option value="fat_percentage">Body Fat Percentage</option>
+                        </select>
 
-                            <button type="submit">Submit</button>
-                        </form>
-                    </div>
-
+                        <button type="submit">Submit</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
