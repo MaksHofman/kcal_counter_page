@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stats Page</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style_progress.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/luxon@3.0.1/build/global/luxon.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-luxon@1.0.0"></script>
 </head>
 <body>
 <div class="navbar">
@@ -25,9 +28,14 @@
     <div class="content">
         <div class="holder">
             <div class="progress-content">
-                <!-- Your stats content goes here -->
                 <p>Progress Graph</p>
-                 <img src="static/plots_saved_to_display/{{ progress_png }}" alt="Description of image">
+                <div class="graph-holder">
+                    <canvas id="progressChart"></canvas>
+                </div>
+
+                <!-- Inject progress data into hidden elements -->
+                <div id="progressData" style="display:none">{{ output_int | tojson }}</div>
+                <div id="progressLabels" style="display:none">{{ output_date | tojson }}</div>
             </div>
         </div>
         <h1>Add progress</h1>
@@ -54,5 +62,8 @@
         </div>
     </div>
 </div>
+
+<script src="{{ url_for('static', filename='js/progress.js') }}"></script>
+
 </body>
 </html>

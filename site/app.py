@@ -105,16 +105,14 @@ def progress():
     if 'logged_in' in session:
         email = session.get('email')
         output_int, output_date = get_progress_update(email, 'mass')
-        progress_png = make_graf_out_of_progress(output_int, output_date, 'mass')
+
         if request.method == 'POST':
             new_progres_int = request.form['inputNumber']
             new_progres_type = request.form['selectOptions']
             add_new_record_to_progress(email, new_progres_int, new_progres_type)
             output_int, output_date = get_progress_update(email, 'mass')
-            progress_png = make_graf_out_of_progress(output_int, output_date, 'mass')
-            return render_template('progress.html', progress_png=progress_png)
 
-        return render_template('progress.html', progress_png=progress_png)
+        return render_template('progress.html', output_int=output_int, output_date=output_date)
     else:
         return redirect(url_for('login'))
 

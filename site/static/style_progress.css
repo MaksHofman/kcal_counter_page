@@ -146,11 +146,9 @@ label {
     border-radius: 10px;
 }
 
-img {
-    max-width: 100%;
-    max-height: 100%;
-    height: auto;
-    width: auto;
+.graph-holder {
+    width: 500px;
+    height: 300px;
 }
 
 /* Responsive design */
