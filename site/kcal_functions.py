@@ -1,5 +1,5 @@
 import sqlite3
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
@@ -32,13 +32,23 @@ def get_progress_update(email: str, progress_type: str) -> tuple[list, list]:
 def add_new_record_to_progress(email, int_record, type_record):
     user = User.query.filter_by(email=email).first()
     if user:
-        new_progress = Progress(
-            user_id=user.email,
-            progress_update=float(int_record),
-            progress_update_date=get_date_now(),
-            progress_type=type_record
-        )
-        db.session.add(new_progress)
+        today = date.today()
+
+        existing_progress = Progress.query.filter_by(user_id=user.email,
+                                                     progress_type=type_record,
+                                                     progress_update_date=today).first()
+
+        if existing_progress:
+            existing_progress.progress_update = float(int_record)
+
+        else:
+            new_progress = Progress(
+                user_id=user.email,
+                progress_update=float(int_record),
+                progress_update_date=get_date_now(),
+                progress_type=type_record
+            )
+            db.session.add(new_progress)
         db.session.commit()
 
 

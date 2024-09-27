@@ -2,6 +2,14 @@ document.addEventListener('DOMContentLoaded', function() {
     const ctx = document.getElementById('progressChart').getContext('2d');
     const progressTypeSelect = document.getElementById("progress-type-select");
 
+    const progressTypeLabels = {
+        mass: "Mass",
+        pr_chest: "Chest PR",
+        pr_deadlift: "Deadlift PR",
+        pr_squat: "Squat PR",
+        fat_percentage: "Body Fat Percentage"
+    };
+
     let myChart;
 
     function getChartColor(type) {
@@ -45,13 +53,14 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         const color = getChartColor(type);
+        const label = progressTypeLabels[type]
 
         myChart = new Chart(ctx, {
             type: 'line',
             data: {
                 labels: labels,
                 datasets: [{
-                    label: `${type} Progress`,
+                    label: `${label} Progress`,
                     data: data,
                     backgroundColor: color.background,
                     borderColor: color.border,
