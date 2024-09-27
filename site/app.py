@@ -1,7 +1,7 @@
 import os
 
 from flask_sqlalchemy import SQLAlchemy
-from flask import Flask, redirect, render_template, request, session, url_for
+from flask import Flask, redirect, render_template, request, session, url_for, jsonify
 from models import db, User, Product, Progress
 from db_init import database_path
 from kcal_functions import *
@@ -104,17 +104,32 @@ def sign_out():
 def progress():
     if 'logged_in' in session:
         email = session.get('email')
-        output_int, output_date = get_progress_update(email, 'mass')
 
         if request.method == 'POST':
-            new_progres_int = request.form['inputNumber']
-            new_progres_type = request.form['selectOptions']
-            add_new_record_to_progress(email, new_progres_int, new_progres_type)
-            output_int, output_date = get_progress_update(email, 'mass')
+            new_progress_int = request.form['inputNumber']
+            new_progress_type = request.form['selectOptions']
+            add_new_record_to_progress(email, new_progress_int, new_progress_type)
 
-        return render_template('progress.html', output_int=output_int, output_date=output_date)
+        return render_template('progress.html')
     else:
         return redirect(url_for('login'))
+
+
+@app.route('/progress_data', methods=['GET'])
+def get_progress_data():
+    if 'logged_in' in session:
+        email = session.get('email')
+        progress_type = request.args.get('progress_type', 'mass')
+
+        output_int, output_date = get_progress_update(email, progress_type)
+
+        return jsonify({
+            'data': output_int,
+            'labels': output_date
+        })
+    else:
+        return jsonify({'error': 'Not logged in'}), 401
+
 
 
 @app.route('/stats')

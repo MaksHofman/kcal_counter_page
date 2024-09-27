@@ -32,10 +32,15 @@
                 <div class="graph-holder">
                     <canvas id="progressChart"></canvas>
                 </div>
-
-                <!-- Inject progress data into hidden elements -->
-                <div id="progressData" style="display:none">{{ output_int | tojson }}</div>
-                <div id="progressLabels" style="display:none">{{ output_date | tojson }}</div>
+                <div>
+                    <select id="progress-type-select">
+                        <option value="mass" {% if selected_progress_type == 'mass' %}selected{% endif %}>Mass</option>
+                        <option value="pr_chest" {% if selected_progress_type == 'pr_chest' %}selected{% endif %}>Chest PR</option>
+                        <option value="pr_deadlift" {% if selected_progress_type == 'pr_deadlift' %}selected{% endif %}>Deadlift PR</option>
+                        <option value="pr_squat" {% if selected_progress_type == 'pr_squat' %}selected{% endif %}>Squat PR</option>
+                        <option value="fat_percentage" {% if selected_progress_type == 'fat_percentage' %}selected{% endif %}>Body Fat Percentage</option>
+                    </select>
+                </div>
             </div>
         </div>
         <h1>Add progress</h1>
