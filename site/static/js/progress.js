@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', function() {
             data: {
                 labels: labels,
                 datasets: [{
-                    label: `${label} Progress`,
+                    label: `${label}`,
                     data: data,
                     backgroundColor: color.background,
                     borderColor: color.border,
@@ -77,6 +77,28 @@ document.addEventListener('DOMContentLoaded', function() {
                     },
                     y: {
                         beginAtZero: false
+                    }
+                },
+                plugins: {
+                    legend: {
+                        onClick: (e) => {
+                            e.stopPropagation();
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(tooltipItem) {
+                                return `${label}: ${tooltipItem.raw}`;
+                            },
+                            title: function(tooltipItems) {
+                                const date = tooltipItems[0].label;
+                                return new Date(date).toLocaleDateString('en-GB', {
+                                    year: 'numeric',
+                                    month: 'short',
+                                    day: 'numeric'
+                                });
+                            }
+                        }
                     }
                 }
             }
