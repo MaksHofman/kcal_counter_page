@@ -53,7 +53,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         const color = getChartColor(type);
-        const label = progressTypeLabels[type]
+        const unit = (type==='fat_percentage') ? "%" : "kg";
+        const label = progressTypeLabels[type];
 
         myChart = new Chart(ctx, {
             type: 'line',
@@ -88,7 +89,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     tooltip: {
                         callbacks: {
                             label: function(tooltipItem) {
-                                return `${label}: ${tooltipItem.raw}`;
+                                return `${label}: ${tooltipItem.raw}${unit}`;
                             },
                             title: function(tooltipItems) {
                                 const date = tooltipItems[0].label;
