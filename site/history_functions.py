@@ -17,7 +17,7 @@ def update_today_history(email, kcal_count):
     entry_to_change = CaloriesHistory.query.filter_by(user_email=user.email, entry_date=today).first()
 
     if not entry_to_change:
-        add_new_today_history_by_email(email, kcal_count, goal)
+        add_new_today_history_by_email(email, kcal_count, goal, user.goal_type)
         db.session.commit()
         return
 

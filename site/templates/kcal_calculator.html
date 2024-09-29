@@ -23,27 +23,24 @@
 <div class="container">
     <h1>Account Caloric Statistics</h1>
     <div class="content">
-        <h2>Calory stats</h2>
+        <h2>Caloric stats</h2>
         <div class="holder">
             <div class="calc-content">
-                <!-- Your stats content goes here -->
                 <p class="title_p">Basal Metabolic Rate (BMR):</p>
-                <p>{{bmr}}</p>
+                <p>{{bmr}} kcal</p>
             </div>
             <div class="calc-content">
-                <!-- Your stats content goes here -->
-                <p class="title_p">Total Daily Energy Expenditure:</p>
-                <p>{{ ttde|safe }}</p>
+                <p class="title_p">Daily Energy Expenditure:</p>
+                <p>{{ ttde|safe }} kcal</p>
             </div>
         </div>
     </div>
     <div class="content">
-        <h2>Your Caloric Goal</h2>
+        <h2>Your Current Goal</h2>
         <div class="holder">
             <div class="calc-content">
-                <!-- Your stats content goes here -->
-                <p class="title_p">Today's goal:</p>
-                <p>{{ kcal_goal }}</p>
+                <p class="title_p">Current goal:</p>
+                <p>{{ kcal_goal }} kcal</p>
             </div>
         </div>
     </div>
