@@ -1,17 +1,22 @@
 import sqlite3
 from datetime import datetime, timedelta, date
 
+from typing import Literal #do ekstra dokumentacj
+
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 
 from models import db, User, Progress
 
-
+#Dodatkowe aliasy dla czytelniejszego kodu
+gender = Literal["male", "female"]
+activity_level = Literal['sedentary','lightly active','moderately active', 'very active', 'super active']
+ 
 def get_date_now() -> datetime:
     return datetime.now()
 
 
-def get_kcal_goal_from_db(email):
+def get_kcal_goal_from_db(email: str) -> int:
     user = User.query.filter_by(email=email).first()
     if user:
         return user.goal
@@ -29,7 +34,7 @@ def get_progress_update(email: str, progress_type: str) -> tuple[list, list]:
     return [], []
 
 
-def add_new_record_to_progress(email, int_record, type_record):
+def add_new_record_to_progress(email: str, int_record: int, type_record: str) -> None:
     user = User.query.filter_by(email=email).first()
     if user:
         today = date.today()
@@ -52,7 +57,7 @@ def add_new_record_to_progress(email, int_record, type_record):
         db.session.commit()
 
 
-def calculate_bmr(weight, height, age, gender):
+def calculate_bmr(weight: int, height: int, age: int, gender: gender) -> int:
     if not all([weight, height, age, gender]):
         return 0
     
@@ -71,7 +76,7 @@ def calculate_bmr(weight, height, age, gender):
     return int(round(bmr, 0))
 
 
-def calculate_tdee(bmr, activity_level):
+def calculate_tdee(bmr: int, activity_level: activity_level) -> int:
     """Calculate Total Daily Energy Expenditure (TDEE)"""
 
     if bmr == 0:
@@ -93,7 +98,7 @@ def calculate_tdee(bmr, activity_level):
     return int(round(tdee, 0))
 
 
-def calculate_bulking_calories(tdee, bulking_percentage):
+def calculate_bulking_calories(tdee: int, bulking_percentage: int) -> int:
     """Calculate calories for bulking phase"""
     bulking_calories = tdee + (tdee * bulking_percentage)
     return bulking_calories
@@ -105,7 +110,7 @@ def calculate_cutting_calories(tdee, cutting_percentage):
     return cutting_calories
 
 
-def kcal_calkulator(mass, height, age):
+def kcal_calkulator(mass: int, height: int, age: int) -> None:
     print(mass, height, age)
 
 
