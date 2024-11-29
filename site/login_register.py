@@ -12,7 +12,7 @@ def get_user_from_db(username):
     else:
         return None, None, None, None, None, None, None
 
-def anti_sql_injection_login_check(login, password) -> bool:
+def anti_sql_injection_login_check(login: str, password: str) -> bool:
     if re.match(__login_check, login) and re.match(__password_check, password):
         return True
     else:

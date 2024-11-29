@@ -4,12 +4,12 @@ from models import db, User, UserCalories
 
 from history_functions import delete_kcal_from_history
 
-def get_goal_by_email(email):
+def get_goal_by_email(email: str):
     user = User.query.filter_by(email=email).first()
     return user.goal
 
 
-def add_user_calories_by_email(email, kcal_count):
+def add_user_calories_by_email(email: str, kcal_count: int):
     # Verify that the user exists
     user = User.query.filter_by(email=email).first()
     if user:
@@ -27,7 +27,7 @@ def add_user_calories_by_email(email, kcal_count):
         db.session.commit()
 
 
-def get_calories_today_by_email(email):
+def get_calories_today_by_email(email: str):
     user = User.query.filter_by(email=email).first()
     if user:
         total_calories = db.session.query(db.func.sum(UserCalories.kcal_count)) \
@@ -39,15 +39,15 @@ def get_calories_today_by_email(email):
         raise ValueError("User does not exist")
 
 
-def get_records_calories_today_by_email(email):
+def get_records_calories_today_by_email(email: str):
     return UserCalories.query.filter_by(user_email=email).filter(
         UserCalories.entry_date >= datetime.combine(date.today(), time.min),
         UserCalories.entry_date < datetime.combine(date.today(), time.max)
     ).order_by(UserCalories.entry_date.desc()).all()
 
 
-def delete_calories_record_from_db(email, entry_id):
-    record = calorie_record_owned_by_user(email, entry_id)
+def delete_calories_record_from_db(email: str, UserCalories_id: int):
+    record = calorie_record_owned_by_user(email, UserCalories_id)
     if record:
         delete_kcal_from_history(email, record.kcal_count)
         db.session.delete(record)
@@ -56,7 +56,7 @@ def delete_calories_record_from_db(email, entry_id):
     return False
 
 
-def update_goal_by_email(email, goal, goal_type):
+def update_goal_by_email(email: str, goal: int, goal_type: str):
     user = User.query.filter_by(email=email).first()
 
     if user:
@@ -67,7 +67,7 @@ def update_goal_by_email(email, goal, goal_type):
         raise ValueError("User does not exist")
 
 
-def get_streak_by_email(email):
+def get_streak_by_email(email: str):
     user = User.query.filter_by(email=email).first()
     if user:
         return {
@@ -79,8 +79,8 @@ def get_streak_by_email(email):
 
 
 # Utility functions
-def calorie_record_owned_by_user(email, entry_id):
-    return UserCalories.query.filter_by(id=entry_id, user_email=email).first()
+def calorie_record_owned_by_user(email: str, UserCalories_id: int):
+    return UserCalories.query.filter_by(id=UserCalories_id, user_email=email).first()
 
 
 def update_streak(user):
