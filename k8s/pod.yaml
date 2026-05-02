@@ -1,0 +1,39 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: kcal-pod
+  labels:
+    app: kcal
+spec:
+  containers:
+ 
+    - name: postgres
+      image: gcr.io/plated-analyzer-495108-v2/kcal-postgres:latest
+      env:
+        - name: POSTGRES_PASSWORD
+          value: "password"
+      ports:
+        - containerPort: 5432
+ 
+    - name: flask
+      image: gcr.io/plated-analyzer-495108-v2/kcal-app:latest
+      env:
+        - name: DATABASE_URL
+          value: "postgresql://postgres:password@localhost:5432/postgres"
+      ports:
+        - containerPort: 5000
+ 
+---
+# Service żeby dostać się do apki z zewnątrz
+apiVersion: v1
+kind: Service
+metadata:
+  name: kcal-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: kcal
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 5000

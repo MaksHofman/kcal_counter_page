@@ -1,0 +1,71 @@
+substitutions:
+  _PROJECT_ID: 'plated-analyzer-495108-v2'
+  _REGION: 'europe-central2'
+  _CLUSTER_NAME: 'gke-learning-cluster'
+
+steps:
+
+  # 1. Zbuduj obraz postgres
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/${_PROJECT_ID}/kcal-postgres:$COMMIT_SHA', './postgres']
+
+  # 2. Zbuduj obraz Flask app
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/${_PROJECT_ID}/kcal-app:$COMMIT_SHA', './site']
+
+  # 3. Testy — uruchom Flask app z postgres i odpytaj /health
+  - name: 'gcr.io/cloud-builders/docker'
+    entrypoint: 'sh'
+    args:
+      - '-c'
+      - |
+        docker network create testnet
+
+        docker run -d --name test-db --network testnet \
+          -e POSTGRES_PASSWORD=password \
+          gcr.io/${_PROJECT_ID}/kcal-postgres:$COMMIT_SHA
+
+        sleep 5
+
+        docker run -d --name test-app --network testnet \
+          -e DATABASE_URL=postgresql://postgres:password@test-db:5432/postgres \
+          -p 5001:5000 \
+          gcr.io/${_PROJECT_ID}/kcal-app:$COMMIT_SHA
+
+        sleep 5
+
+        curl --fail http://localhost:5001/ || exit 1
+
+        echo "Test passed!"
+
+  # 4. Push obrazów do GCR (tylko jeśli testy przeszły)
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/${_PROJECT_ID}/kcal-postgres:$COMMIT_SHA']
+
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/${_PROJECT_ID}/kcal-app:$COMMIT_SHA']
+
+  # 5. Deploy na GKE
+  - name: 'gcr.io/cloud-builders/kubectl'
+    args:
+      - apply
+      - -f
+      - k8s/pod.yaml
+    env:
+      - 'CLOUDSDK_COMPUTE_REGION=${_REGION}'
+      - 'CLOUDSDK_CONTAINER_CLUSTER=${_CLUSTER_NAME}'
+
+  # 6. Podmień obrazy na nowe (rolling update)
+  - name: 'gcr.io/cloud-builders/kubectl'
+    args:
+      - set
+      - image
+      - pod/kcal-pod
+      - postgres=gcr.io/${_PROJECT_ID}/kcal-postgres:$COMMIT_SHA
+      - flask=gcr.io/${_PROJECT_ID}/kcal-app:$COMMIT_SHA
+    env:
+      - 'CLOUDSDK_COMPUTE_REGION=${_REGION}'
+      - 'CLOUDSDK_CONTAINER_CLUSTER=${_CLUSTER_NAME}'
+
+options:
+  logging: CLOUD_LOGGING_ONLY
